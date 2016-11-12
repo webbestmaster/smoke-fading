@@ -16,10 +16,14 @@
 
     }
 
-    ImageOverlay.prototype.initializeImage = function (pathToImage) {
+    ImageOverlay.prototype.initializeMasks = function (jsons) {
+        // TODO: implement this
+    };
+
+    ImageOverlay.prototype.initializeBackgroundImage = function (pathToImage) {
 
         var imageOverlay = this;
-        var stage = imageOverlay.getContainer();
+        var container = imageOverlay.getContainer();
         var renderer = imageOverlay.getRenderer();
 
         return new Promise(function (resolve, reject) {
@@ -30,7 +34,8 @@
                 .texture.baseTexture
                 .on('loaded', function () {
                     renderer.resize(sprite.width, sprite.height);
-                    stage.addChild(sprite);
+                    container.addChildAt(sprite, 0);
+                    imageOverlay._update();
                     resolve();
                 })
                 .on('error', reject);
@@ -44,7 +49,7 @@
     //////////////////////////////////////////////////
 
     ImageOverlay.prototype._update = function () {
-        // console.log('_update');
+        console.log('_update');
         this._renderer.render(this._container);
     };
 
@@ -63,7 +68,7 @@
 
         ticker.add(imageOverlay._update, imageOverlay);
 
-        ticker.start();
+        ticker.stop();
 
         imageOverlay._setTicker(ticker);
 

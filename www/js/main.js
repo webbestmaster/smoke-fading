@@ -7,7 +7,7 @@
         var imageOverlay = new ImageOverlay();
 
         imageOverlay
-            .initializeImage('image/death-stars.jpg')
+            .initializeBackgroundImage('image/death-stars.jpg')
             .then(function () {
                 document.body.appendChild(imageOverlay.getCanvas());
             });
