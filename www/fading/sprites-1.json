@@ -1,0 +1,589 @@
+{
+  "frames": [
+    {
+      "filename": "switch-page-28-frames-00002.png",
+      "frame": {
+        "x": 1647,
+        "y": 681,
+        "w": 291,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 291,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-28-frames-00003.png",
+      "frame": {
+        "x": 1572,
+        "y": 1021,
+        "w": 358,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 358,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-28-frames-00004.png",
+      "frame": {
+        "x": 1205,
+        "y": 1021,
+        "w": 365,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 365,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-28-frames-00005.png",
+      "frame": {
+        "x": 1205,
+        "y": 681,
+        "w": 440,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 440,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-28-frames-00006.png",
+      "frame": {
+        "x": 1205,
+        "y": 341,
+        "w": 450,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 450,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00000.png",
+      "frame": {
+        "x": 1,
+        "y": 1,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00001.png",
+      "frame": {
+        "x": 1,
+        "y": 341,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00002.png",
+      "frame": {
+        "x": 603,
+        "y": 1,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00006.png",
+      "frame": {
+        "x": 1,
+        "y": 681,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00007.png",
+      "frame": {
+        "x": 1,
+        "y": 1021,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00008.png",
+      "frame": {
+        "x": 603,
+        "y": 341,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00012.png",
+      "frame": {
+        "x": 1205,
+        "y": 1,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00013.png",
+      "frame": {
+        "x": 603,
+        "y": 681,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00014.png",
+      "frame": {
+        "x": 603,
+        "y": 1021,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00016.png",
+      "frame": {
+        "x": 603,
+        "y": 1021,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00017.png",
+      "frame": {
+        "x": 603,
+        "y": 681,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00018.png",
+      "frame": {
+        "x": 1205,
+        "y": 1,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00022.png",
+      "frame": {
+        "x": 603,
+        "y": 341,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00023.png",
+      "frame": {
+        "x": 1,
+        "y": 1021,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00024.png",
+      "frame": {
+        "x": 1,
+        "y": 681,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00028.png",
+      "frame": {
+        "x": 603,
+        "y": 1,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00029.png",
+      "frame": {
+        "x": 1,
+        "y": 341,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "switch-page-32-frames-00030.png",
+      "frame": {
+        "x": 1,
+        "y": 1,
+        "w": 600,
+        "h": 338
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 338
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 338
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  ],
+  "meta": {
+    "version": "1.0",
+    "image": "sprites-1.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1939,
+      "h": 1360
+    },
+    "scale": "1"
+  }
+}

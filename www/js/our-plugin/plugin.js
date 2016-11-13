@@ -4,6 +4,10 @@
 
     win.ImageOverlay = ImageOverlay;
 
+    // constants
+    var BACKGROUND_IMAGE_INDEX = -1;
+    var FOREGROUND_IMAGE_INDEX = 1;
+
     function ImageOverlay() {
 
         var imageOverlay = this;
@@ -16,15 +20,36 @@
 
     }
 
-    ImageOverlay.prototype.initializeMasks = function (jsons) {
-        // TODO: implement this
+    ImageOverlay.initializeMasks = function (jsonsList) {
+
+        return new Promise(function (resolve, reject) {
+
+            var loader = new PIXI.loaders.Loader();
+
+            jsonsList.forEach(loader.add, loader);
+
+            loader.once('complete', resolve);
+            loader.once('error', reject);
+
+            loader.load();
+
+        });
+
     };
 
-    ImageOverlay.prototype.initializeBackgroundImage = function (pathToImage) {
+    ImageOverlay.prototype.setRenderSize = function (width, height) {
+
+        var imageOverlay = this;
+        var renderer = imageOverlay.getRenderer();
+
+        renderer.resize(width, height);
+
+    };
+
+    ImageOverlay.prototype.initializeImage = function (pathToImage, zIndex) {
 
         var imageOverlay = this;
         var container = imageOverlay.getContainer();
-        var renderer = imageOverlay.getRenderer();
 
         return new Promise(function (resolve, reject) {
 
@@ -33,14 +58,37 @@
             sprite
                 .texture.baseTexture
                 .on('loaded', function () {
-                    renderer.resize(sprite.width, sprite.height);
-                    container.addChildAt(sprite, 0);
-                    imageOverlay._update();
+                    imageOverlay.addSprite(sprite, zIndex);
                     resolve();
                 })
                 .on('error', reject);
 
         });
+
+    };
+
+    ImageOverlay.prototype.initializeBackgroundImage = function (pathToImage) {
+        return this.initializeImage(pathToImage, BACKGROUND_IMAGE_INDEX);
+    };
+
+    ImageOverlay.prototype.initializeForegroundImage = function (pathToImage) {
+        return this.initializeImage(pathToImage, FOREGROUND_IMAGE_INDEX);
+    };
+
+    ImageOverlay.prototype.addSprite = function (sprite, zIndex) {
+
+        var imageOverlay = this;
+        var container = imageOverlay.getContainer();
+
+        container.addChild(sprite);
+
+        sprite.zIndex = zIndex || 0;
+
+        container.children.sort(function (a, b) {
+            return a.zIndex - b.zIndex;
+        });
+
+        imageOverlay._update();
 
     };
 
