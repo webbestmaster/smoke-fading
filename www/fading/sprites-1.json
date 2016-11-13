@@ -1,7 +1,6 @@
 {
-  "frames": [
-    {
-      "filename": "switch-page-28-frames-00002.png",
+  "frames": {
+    "switch-page-28-frames-00002.png": {
       "frame": {
         "x": 1647,
         "y": 681,
@@ -25,8 +24,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00003.png",
+    "switch-page-28-frames-00003.png": {
       "frame": {
         "x": 1572,
         "y": 1021,
@@ -50,8 +48,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00004.png",
+    "switch-page-28-frames-00004.png": {
       "frame": {
         "x": 1205,
         "y": 1021,
@@ -75,8 +72,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00005.png",
+    "switch-page-28-frames-00005.png": {
       "frame": {
         "x": 1205,
         "y": 681,
@@ -100,8 +96,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00006.png",
+    "switch-page-28-frames-00006.png": {
       "frame": {
         "x": 1205,
         "y": 341,
@@ -125,8 +120,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00000.png",
+    "switch-page-32-frames-00000.png": {
       "frame": {
         "x": 1,
         "y": 1,
@@ -150,8 +144,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00001.png",
+    "switch-page-32-frames-00001.png": {
       "frame": {
         "x": 1,
         "y": 341,
@@ -175,8 +168,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00002.png",
+    "switch-page-32-frames-00002.png": {
       "frame": {
         "x": 603,
         "y": 1,
@@ -200,8 +192,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00006.png",
+    "switch-page-32-frames-00006.png": {
       "frame": {
         "x": 1,
         "y": 681,
@@ -225,8 +216,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00007.png",
+    "switch-page-32-frames-00007.png": {
       "frame": {
         "x": 1,
         "y": 1021,
@@ -250,8 +240,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00008.png",
+    "switch-page-32-frames-00008.png": {
       "frame": {
         "x": 603,
         "y": 341,
@@ -275,8 +264,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00012.png",
+    "switch-page-32-frames-00012.png": {
       "frame": {
         "x": 1205,
         "y": 1,
@@ -300,8 +288,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00013.png",
+    "switch-page-32-frames-00013.png": {
       "frame": {
         "x": 603,
         "y": 681,
@@ -325,8 +312,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00014.png",
+    "switch-page-32-frames-00014.png": {
       "frame": {
         "x": 603,
         "y": 1021,
@@ -350,8 +336,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00016.png",
+    "switch-page-32-frames-00016.png": {
       "frame": {
         "x": 603,
         "y": 1021,
@@ -375,8 +360,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00017.png",
+    "switch-page-32-frames-00017.png": {
       "frame": {
         "x": 603,
         "y": 681,
@@ -400,8 +384,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00018.png",
+    "switch-page-32-frames-00018.png": {
       "frame": {
         "x": 1205,
         "y": 1,
@@ -425,8 +408,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00022.png",
+    "switch-page-32-frames-00022.png": {
       "frame": {
         "x": 603,
         "y": 341,
@@ -450,8 +432,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00023.png",
+    "switch-page-32-frames-00023.png": {
       "frame": {
         "x": 1,
         "y": 1021,
@@ -475,8 +456,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00024.png",
+    "switch-page-32-frames-00024.png": {
       "frame": {
         "x": 1,
         "y": 681,
@@ -500,8 +480,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00028.png",
+    "switch-page-32-frames-00028.png": {
       "frame": {
         "x": 603,
         "y": 1,
@@ -525,8 +504,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00029.png",
+    "switch-page-32-frames-00029.png": {
       "frame": {
         "x": 1,
         "y": 341,
@@ -550,8 +528,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00030.png",
+    "switch-page-32-frames-00030.png": {
       "frame": {
         "x": 1,
         "y": 1,
@@ -575,7 +552,7 @@
         "y": 0.5
       }
     }
-  ],
+  },
   "meta": {
     "version": "1.0",
     "image": "sprites-1.png",

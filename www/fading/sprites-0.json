@@ -1,7 +1,6 @@
 {
-  "frames": [
-    {
-      "filename": "switch-page-28-frames-00001.png",
+  "frames": {
+    "switch-page-28-frames-00001.png": {
       "frame": {
         "x": 1807,
         "y": 1,
@@ -25,8 +24,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00009.png",
+    "switch-page-28-frames-00009.png": {
       "frame": {
         "x": 1,
         "y": 1,
@@ -50,8 +48,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00010.png",
+    "switch-page-28-frames-00010.png": {
       "frame": {
         "x": 1,
         "y": 341,
@@ -75,8 +72,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00011.png",
+    "switch-page-28-frames-00011.png": {
       "frame": {
         "x": 603,
         "y": 1,
@@ -100,8 +96,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00012.png",
+    "switch-page-28-frames-00012.png": {
       "frame": {
         "x": 1,
         "y": 681,
@@ -125,8 +120,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00013.png",
+    "switch-page-28-frames-00013.png": {
       "frame": {
         "x": 603,
         "y": 341,
@@ -150,8 +144,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00014.png",
+    "switch-page-28-frames-00014.png": {
       "frame": {
         "x": 1205,
         "y": 1,
@@ -175,8 +168,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00015.png",
+    "switch-page-28-frames-00015.png": {
       "frame": {
         "x": 1,
         "y": 1021,
@@ -200,8 +192,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00016.png",
+    "switch-page-28-frames-00016.png": {
       "frame": {
         "x": 603,
         "y": 681,
@@ -225,8 +216,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00017.png",
+    "switch-page-28-frames-00017.png": {
       "frame": {
         "x": 1205,
         "y": 341,
@@ -250,8 +240,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00018.png",
+    "switch-page-28-frames-00018.png": {
       "frame": {
         "x": 1,
         "y": 1361,
@@ -275,8 +264,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00019.png",
+    "switch-page-28-frames-00019.png": {
       "frame": {
         "x": 1,
         "y": 1701,
@@ -300,8 +288,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00020.png",
+    "switch-page-28-frames-00020.png": {
       "frame": {
         "x": 603,
         "y": 1021,
@@ -325,8 +312,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00021.png",
+    "switch-page-28-frames-00021.png": {
       "frame": {
         "x": 1205,
         "y": 681,
@@ -350,8 +336,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00022.png",
+    "switch-page-28-frames-00022.png": {
       "frame": {
         "x": 603,
         "y": 1361,
@@ -375,8 +360,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00023.png",
+    "switch-page-28-frames-00023.png": {
       "frame": {
         "x": 603,
         "y": 1701,
@@ -400,8 +384,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00024.png",
+    "switch-page-28-frames-00024.png": {
       "frame": {
         "x": 1205,
         "y": 1021,
@@ -425,8 +408,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00025.png",
+    "switch-page-28-frames-00025.png": {
       "frame": {
         "x": 1205,
         "y": 1361,
@@ -450,8 +432,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00026.png",
+    "switch-page-28-frames-00026.png": {
       "frame": {
         "x": 1205,
         "y": 1701,
@@ -475,8 +456,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-28-frames-00027.png",
+    "switch-page-28-frames-00027.png": {
       "frame": {
         "x": 1807,
         "y": 341,
@@ -500,8 +480,7 @@
         "y": 0.5
       }
     },
-    {
-      "filename": "switch-page-32-frames-00031.png",
+    "switch-page-32-frames-00031.png": {
       "frame": {
         "x": 1807,
         "y": 341,
@@ -525,7 +504,7 @@
         "y": 0.5
       }
     }
-  ],
+  },
   "meta": {
     "version": "1.0",
     "image": "sprites-0.png",

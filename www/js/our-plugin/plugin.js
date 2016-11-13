@@ -20,20 +20,40 @@
 
     }
 
-    ImageOverlay.initializeMasks = function (jsonsList) {
+    ImageOverlay.loadAssets = function (jsonsList) {
 
         return new Promise(function (resolve, reject) {
 
             var loader = new PIXI.loaders.Loader();
 
-            jsonsList.forEach(loader.add, loader);
+            // jsonsList.forEach(loader.add, loader);
 
-            loader.once('complete', resolve);
+            loader.add(jsonsList);
+
+            loader.on('progress', function () {
+                console.log('loaded');
+            });
+
+            // loader.on('complete', resolve);
+            // loader.on('load', resolve);
             loader.once('error', reject);
 
-            loader.load();
+            loader.load(resolve);
 
         });
+
+    };
+
+
+    ImageOverlay.prototype.initializeMask = function (pathToImageList) {
+
+        var imageOverlay = this;
+
+        var movieClip = new PIXI.extras.MovieClip(pathToImageList.map(function (pathToImage) {
+            return PIXI.Texture.fromFrame(pathToImage);
+        }));
+
+        imageOverlay._setMask(movieClip);
 
     };
 
@@ -58,7 +78,7 @@
                 .texture.baseTexture
                 .on('loaded', function () {
                     imageOverlay.addSprite(sprite, zIndex);
-                    resolve();
+                    resolve(sprite);
                 })
                 .on('error', reject);
 
@@ -67,11 +87,25 @@
     };
 
     ImageOverlay.prototype.initializeBackgroundImage = function (pathToImage) {
-        return this.initializeImage(pathToImage, BACKGROUND_IMAGE_INDEX);
+
+        var imageOverlay = this;
+
+        return this.initializeImage(pathToImage, BACKGROUND_IMAGE_INDEX)
+            .then(function (sprite) {
+                imageOverlay._setBackgroundSprite(sprite);
+            });
+
     };
 
     ImageOverlay.prototype.initializeForegroundImage = function (pathToImage) {
-        return this.initializeImage(pathToImage, FOREGROUND_IMAGE_INDEX);
+
+        var imageOverlay = this;
+
+        return this.initializeImage(pathToImage, FOREGROUND_IMAGE_INDEX)
+            .then(function (sprite) {
+                imageOverlay._setForegroundSprite(sprite);
+            });
+
     };
 
     ImageOverlay.prototype.addSprite = function (sprite, zIndex) {
@@ -103,6 +137,9 @@
     ImageOverlay.prototype._container = null;
     ImageOverlay.prototype._renderer = null;
     ImageOverlay.prototype._ticker = null;
+    ImageOverlay.prototype._mask = null;
+    ImageOverlay.prototype._backgroundSprite = null;
+    ImageOverlay.prototype._foregroundSprite = null;
 
     //////////////////////////////////////////////////
     // Ticker
@@ -167,5 +204,33 @@
     ImageOverlay.prototype._setContainer = function (container) {
         return this._container = container;
     };
+
+
+    ImageOverlay.prototype.getMask = function () {
+        return this._mask;
+    };
+
+    ImageOverlay.prototype._setMask = function (movieClip) {
+        return this._mask = movieClip;
+    };
+
+
+    ImageOverlay.prototype.getBackgroundSprite = function () {
+        return this._backgroundSprite;
+    };
+
+    ImageOverlay.prototype._setBackgroundSprite = function (sprite) {
+        return this._backgroundSprite = sprite;
+    };
+
+
+    ImageOverlay.prototype.getForegroundSprite = function () {
+        return this._foregroundSprite;
+    };
+
+    ImageOverlay.prototype._setForegroundSprite = function (sprite) {
+        return this._foregroundSprite = sprite;
+    };
+
 
 }(window));
