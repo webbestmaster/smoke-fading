@@ -50,7 +50,8 @@
         var imageOverlay = this;
 
         var movieClip = new PIXI.extras.MovieClip(pathToImageList.map(function (pathToImage) {
-            return PIXI.Texture.fromFrame(pathToImage);
+            // return PIXI.Texture.fromFrame(pathToImage);
+            return PIXI.Texture.fromImage(pathToImage);
         }));
 
         imageOverlay._setMask(movieClip);

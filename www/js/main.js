@@ -20,7 +20,7 @@
         imageOverlay.setRenderSize(600, 400);
 
         var maskArray = [];
-        for (var i = 17; i < 32; i += 1) {
+        for (var i = 0; i < 16; i += 1) {
             maskArray.push('switch-page-32-frames-000' + (i < 10 ? '0' : '') + i + '.png');
         }
 
@@ -32,15 +32,22 @@
         ]).then(function () {
             document.body.appendChild(imageOverlay.getCanvas());
 
+            // var mask = imageOverlay.getMask();
+            var mask = PIXI.Sprite.fromFrame('switch-page-32-frames-00003.png');
 
-            imageOverlay.getMask().width = 600;
-            imageOverlay.getMask().height = 400;
-            imageOverlay.getMask().loop = false;
+            mask.width = 600;
+            mask.height = 400;
 
-            imageOverlay.getContainer().addChild(imageOverlay.getMask());
+            // mask.animationSpeed = 1;
+
+
+            imageOverlay.getForegroundSprite().mask = mask;
+
+            imageOverlay.getContainer().addChild(mask);
+
+            // mask.play();
+
             imageOverlay.getTicker().start();
-
-            imageOverlay.getMask().play();
 
         });
 
