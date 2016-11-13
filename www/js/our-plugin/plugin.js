@@ -49,7 +49,6 @@
     ImageOverlay.prototype.initializeImage = function (pathToImage, zIndex) {
 
         var imageOverlay = this;
-        var container = imageOverlay.getContainer();
 
         return new Promise(function (resolve, reject) {
 
