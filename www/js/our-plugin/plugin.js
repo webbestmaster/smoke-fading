@@ -14,7 +14,10 @@
 
         // create renderer
         imageOverlay._setContainer(new PIXI.Container());
-        imageOverlay._setRenderer(PIXI.autoDetectRenderer(128, 128));
+        imageOverlay._setRenderer(PIXI.autoDetectRenderer(128, 128, {
+            clearBeforeRender: false,
+            preserveDrawingBuffer: true
+        }));
 
         imageOverlay._initializeTicker();
 
@@ -26,17 +29,9 @@
 
             var loader = new PIXI.loaders.Loader();
 
-            // jsonsList.forEach(loader.add, loader);
-
             loader.add(jsonsList);
 
-            loader.on('progress', function () {
-                console.log('loaded');
-            });
-
-            // loader.on('complete', resolve);
-            // loader.on('load', resolve);
-            loader.once('error', reject);
+            loader.on('error', reject);
 
             loader.load(resolve);
 
@@ -49,14 +44,34 @@
 
         var imageOverlay = this;
 
-        var movieClip = new PIXI.extras.MovieClip(pathToImageList.map(function (pathToImage) {
-            // return PIXI.Texture.fromFrame(pathToImage);
-            return PIXI.Texture.fromImage(pathToImage);
+        imageOverlay._setFrameIndex(0);
+
+        imageOverlay._setMask(pathToImageList.map(function (pathToImage) {
+
+            var sprite = PIXI.Sprite.fromFrame(pathToImage);
+
+            sprite.width = 600;
+            sprite.height = 400;
+
+            return sprite;
+
         }));
 
-        imageOverlay._setMask(movieClip);
+    };
+
+    ImageOverlay.prototype.playMask = function () {
+
+        var imageOverlay = this;
+        var ticker = imageOverlay.getTicker();
+
+        imageOverlay._setIsActive(true);
+
+        imageOverlay._setFrameIndex(0);
+
+        ticker.start();
 
     };
+
 
     ImageOverlay.prototype.setRenderSize = function (width, height) {
 
@@ -130,15 +145,80 @@
     // Private methods and properties
     //////////////////////////////////////////////////
 
+
+    var counter = 0;
+
     ImageOverlay.prototype._update = function () {
+
         console.log('_update');
-        this._renderer.render(this._container);
+
+        var imageOverlay = this;
+        var renderer = imageOverlay.getRenderer();
+        var container = imageOverlay.getContainer();
+
+        renderer.render(container);
+
+        counter += 1;
+
+        if (!(counter % 20)) {
+
+            if (imageOverlay.getIsActive()) {
+                imageOverlay._updateMask();
+            }
+
+        }
+
     };
 
+    // var lastFrame;
+
+    ImageOverlay.prototype._updateMask = function () {
+
+        var imageOverlay = this;
+        var mask = imageOverlay.getMask();
+        var frameIndex = imageOverlay.getFrameIndex();
+        var foregroundSprite = imageOverlay.getForegroundSprite();
+        var currentFrameIndex = Math.floor(frameIndex);
+        var container = imageOverlay.getContainer();
+
+        if (currentFrameIndex >= mask.length) {
+            console.log('stop');
+            imageOverlay._setIsActive(false);
+            imageOverlay.getTicker().stop();
+            foregroundSprite.mask = null;
+        } else {
+            console.log('update');
+
+            // lastFrame = currentFrameIndex;
+
+            // var texture = PIXI.Texture.fromImage('image/death-stars-2.jpg');
+            //
+            // foregroundSprite = new PIXI.Sprite(texture);
+
+            // foregroundSprite.mask = null;
+            // debugger
+            // mask[currentFrameIndex];
+            // foregroundSprite.rotation += 0.1;
+            // foregroundSprite.anchor.x = 0.5;
+            // foregroundSprite.anchor.y = 0.5;
+            // foregroundSprite.position.x = 300;
+            // foregroundSprite.position.y = 200;
+            foregroundSprite.mask = mask[currentFrameIndex];
+
+            // container.addChild(foregroundSprite);
+
+            imageOverlay._setFrameIndex(frameIndex + 1);
+
+        }
+
+    };
+
+    ImageOverlay.prototype._isActive = false;
     ImageOverlay.prototype._container = null;
     ImageOverlay.prototype._renderer = null;
     ImageOverlay.prototype._ticker = null;
     ImageOverlay.prototype._mask = null;
+    ImageOverlay.prototype._frameIndex = 0;
     ImageOverlay.prototype._backgroundSprite = null;
     ImageOverlay.prototype._foregroundSprite = null;
 
@@ -211,8 +291,26 @@
         return this._mask;
     };
 
-    ImageOverlay.prototype._setMask = function (movieClip) {
-        return this._mask = movieClip;
+    ImageOverlay.prototype._setMask = function (spritesList) {
+        return this._mask = spritesList;
+    };
+
+
+    ImageOverlay.prototype.getIsActive = function () {
+        return this._isActive;
+    };
+
+    ImageOverlay.prototype._setIsActive = function (isActive) {
+        return this._isActive = isActive;
+    };
+
+
+    ImageOverlay.prototype.getFrameIndex = function () {
+        return this._frameIndex;
+    };
+
+    ImageOverlay.prototype._setFrameIndex = function (frameIndex) {
+        return this._frameIndex = frameIndex;
     };
 
 

@@ -6,9 +6,8 @@
 
         ImageOverlay
             .loadAssets([
-                'fading/sprites-0.json',
-                'fading/sprites-1.json',
-                'fading/sprites-2.json'])
+                'fading/fade.json'
+            ])
             .then(createImage);
 
     }
@@ -20,8 +19,8 @@
         imageOverlay.setRenderSize(600, 400);
 
         var maskArray = [];
-        for (var i = 0; i < 16; i += 1) {
-            maskArray.push('switch-page-32-frames-000' + (i < 10 ? '0' : '') + i + '.png');
+        for (var i = 1; i < 16; i += 1) {
+            maskArray.push('fade-1st-' + (i < 10 ? '0' : '') + i + '.png');
         }
 
         imageOverlay.initializeMask(maskArray);
@@ -32,22 +31,27 @@
         ]).then(function () {
             document.body.appendChild(imageOverlay.getCanvas());
 
-            // var mask = imageOverlay.getMask();
-            var mask = PIXI.Sprite.fromFrame('switch-page-32-frames-00003.png');
+            setTimeout(function () {
+                imageOverlay.playMask()
+            }, 1000);
 
-            mask.width = 600;
-            mask.height = 400;
+
+            // var mask = imageOverlay.getMask();
+            // var mask = PIXI.Sprite.fromFrame('switch-page-32-frames-00008.png');
+
+            // mask.width = 600;
+            // mask.height = 400;
 
             // mask.animationSpeed = 1;
 
 
-            imageOverlay.getForegroundSprite().mask = mask;
-
-            imageOverlay.getContainer().addChild(mask);
+            // imageOverlay.getForegroundSprite().mask = mask;
+            //
+            // imageOverlay.getContainer().addChild(mask);
 
             // mask.play();
 
-            imageOverlay.getTicker().start();
+            // imageOverlay.getTicker().start();
 
         });
 
