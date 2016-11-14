@@ -15,8 +15,8 @@
         // create renderer
         imageOverlay._setContainer(new PIXI.Container());
         imageOverlay._setRenderer(PIXI.autoDetectRenderer(128, 128, {
-            clearBeforeRender: false,
-            preserveDrawingBuffer: true
+            clearBeforeRender: false
+            // preserveDrawingBuffer: true
         }));
 
         imageOverlay._initializeTicker();
@@ -44,18 +44,46 @@
 
         var imageOverlay = this;
 
+        pathToImageList = pathToImageList.reverse();
+
+        var foregroundSprite = imageOverlay.getForegroundSprite();
+        // var backgroundSprite = imageOverlay.getBackgroundSprite();
+        var renderer = imageOverlay.getRenderer();
+
         imageOverlay._setFrameIndex(0);
+
+        // pathToImageList = pathToImageList.reverse();
 
         imageOverlay._setMask(pathToImageList.map(function (pathToImage) {
 
-            var sprite = PIXI.Sprite.fromFrame(pathToImage);
+            var sprite = PIXI.Sprite.fromImage(pathToImage);
 
-            sprite.width = 600;
-            sprite.height = 400;
+            sprite.width = renderer.width;
+            sprite.height = renderer.height;
 
             return sprite;
 
         }));
+
+
+
+        setTimeout(function () {
+
+            var newMask = imageOverlay.getMask().map(function (sprite) {
+
+                var newSprite = new PIXI.Sprite(foregroundSprite.texture);
+
+                imageOverlay.getContainer().addChild(sprite);
+
+                newSprite.mask = sprite;
+
+                return newSprite;
+
+            });
+
+            imageOverlay._setMask(newMask);
+
+        }, 1000);
 
     };
 
@@ -131,11 +159,11 @@
 
         container.addChild(sprite);
 
-        // sprite.zIndex = zIndex || 0;
+        sprite.zIndex = zIndex || 0;
 
-        // container.children.sort(function (a, b) {
-        //     return a.zIndex - b.zIndex;
-        // });
+        container.children.sort(function (a, b) {
+            return a.zIndex - b.zIndex;
+        });
 
         imageOverlay._update();
 
@@ -205,12 +233,24 @@
             // foregroundSprite.position.x = 300;
             // foregroundSprite.position.y = 200;
 
-            var newSprite = new PIXI.Sprite(backgroundSprite.texture);
 
-            newSprite.mask = mask[currentFrameIndex];
+            while (container.children.length > 0) {
+                var child = container.getChildAt(0);
+                container.removeChild(child);
+            }
+
+            // var texture = new PIXI.Texture.fromCanvas(imageOverlay.getCanvas());
+            //
+            // var newSprite = new PIXI.Sprite(texture);
+            //
+            // setTimeout(function () {
+                container.addChild(backgroundSprite);
+                // container.addChild(foregroundSprite);
+                container.addChild(mask[currentFrameIndex]);
+            // }, 100);
+
 
             // container.addChild(newSprite);
-            container.addChild(mask[currentFrameIndex]);
 
             imageOverlay._setFrameIndex(frameIndex + 1);
 

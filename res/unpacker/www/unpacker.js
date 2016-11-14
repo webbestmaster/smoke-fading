@@ -1,20 +1,25 @@
 (function () {
 
-    var jsonList = ['fading/sprites-0.json', 'fading/sprites-1.json', 'fading/sprites-2.json'];
+    // var jsonList = ['fading/sprites-0.json', 'fading/sprites-1.json', 'fading/sprites-2.json'];
 
 
-    loadAssets(jsonList).then(function () {
+    // loadAssets(jsonList).then(function () {
+    loadAssets(['fading/fade.json']).then(function () {
 
         var fileList = [],
             i;
 
+        // for (i = 0; i < 16; i += 1) {
+        //     fileList.push('switch-page-28-frames-000' + (i < 10 ? '0' : '') + i + '.png');
+        // }
         for (i = 0; i < 16; i += 1) {
-            fileList.push('switch-page-28-frames-000' + (i < 10 ? '0' : '') + i + '.png');
+            fileList.push('fade-1st-' + (i < 10 ? '0' : '') + i + '.png');
         }
 
-        for (i = 0; i < 32; i += 1) {
-            fileList.push('switch-page-32-frames-000' + (i < 10 ? '0' : '') + i + '.png');
-        }
+        //
+        // for (i = 0; i < 32; i += 1) {
+        //     fileList.push('switch-page-32-frames-000' + (i < 10 ? '0' : '') + i + '.png');
+        // }
 
 
         var p = Promise.resolve();

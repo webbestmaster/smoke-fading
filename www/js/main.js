@@ -19,11 +19,12 @@
         imageOverlay.setRenderSize(600, 400);
 
         var maskArray = [];
-        for (var i = 1; i < 16; i += 1) {
-            maskArray.push('fade-1st-' + (i < 10 ? '0' : '') + i + '.png');
+        for (var i = 0; i < 16; i += 1) {
+            maskArray.push('fading-src/fade-1st-' + (i < 10 ? '0' : '') + i + '.png');
+            // maskArray.push('fade-1st-' + (i < 10 ? '0' : '') + i + '.png');
         }
 
-        imageOverlay.initializeMask(maskArray);
+        // maskArray = maskArray.reverse();
 
         Promise.all([
             imageOverlay.initializeBackgroundImage('image/death-stars-1.jpg'),
@@ -32,8 +33,12 @@
             document.body.appendChild(imageOverlay.getCanvas());
 
             setTimeout(function () {
+                imageOverlay.initializeMask(maskArray);
+            }, 500);
+
+            setTimeout(function () {
                 imageOverlay.playMask()
-            }, 1000);
+            }, 2000);
 
 
             // var mask = imageOverlay.getMask();
@@ -58,6 +63,7 @@
 
     }
 
-    win.addEventListener('load', main, false);
+    win.addEventListener('load', createImage, false);
+    // win.addEventListener('load', main, false);
 
 }(window));
