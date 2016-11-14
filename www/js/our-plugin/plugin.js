@@ -131,11 +131,11 @@
 
         container.addChild(sprite);
 
-        sprite.zIndex = zIndex || 0;
+        // sprite.zIndex = zIndex || 0;
 
-        container.children.sort(function (a, b) {
-            return a.zIndex - b.zIndex;
-        });
+        // container.children.sort(function (a, b) {
+        //     return a.zIndex - b.zIndex;
+        // });
 
         imageOverlay._update();
 
@@ -178,6 +178,7 @@
         var mask = imageOverlay.getMask();
         var frameIndex = imageOverlay.getFrameIndex();
         var foregroundSprite = imageOverlay.getForegroundSprite();
+        var backgroundSprite = imageOverlay.getBackgroundSprite();
         var currentFrameIndex = Math.floor(frameIndex);
         var container = imageOverlay.getContainer();
 
@@ -203,9 +204,13 @@
             // foregroundSprite.anchor.y = 0.5;
             // foregroundSprite.position.x = 300;
             // foregroundSprite.position.y = 200;
-            foregroundSprite.mask = mask[currentFrameIndex];
 
-            // container.addChild(foregroundSprite);
+            var newSprite = new PIXI.Sprite(backgroundSprite.texture);
+
+            newSprite.mask = mask[currentFrameIndex];
+
+            // container.addChild(newSprite);
+            container.addChild(mask[currentFrameIndex]);
 
             imageOverlay._setFrameIndex(frameIndex + 1);
 
