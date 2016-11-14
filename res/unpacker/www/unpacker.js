@@ -6,13 +6,19 @@
     // loadAssets(jsonList).then(function () {
     loadAssets(['fading/fade.json']).then(function () {
 
-        var fileList = [],
+        var fileList,
             i;
 
         // for (i = 0; i < 16; i += 1) {
         //     fileList.push('switch-page-28-frames-000' + (i < 10 ? '0' : '') + i + '.png');
         // }
         for (i = 0; i < 16; i += 1) {
+            fileList = [];
+            fileList.push('fade-1st-' + (i < 10 ? '0' : '') + i + '.png');
+        }
+
+        for (i = 0; i < 16; i += 1) {
+            fileList = [];
             fileList.push('fade-1st-' + (i < 10 ? '0' : '') + i + '.png');
         }
 
