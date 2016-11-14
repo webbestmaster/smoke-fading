@@ -12,6 +12,17 @@
 
         var imageOverlay = this;
 
+        imageOverlay._isActive = false;
+        imageOverlay._container = null;
+        imageOverlay._renderer = null;
+        imageOverlay._ticker = null;
+        imageOverlay._masks = [];
+        imageOverlay._frameIndex = 0;
+        imageOverlay._backgroundSprite = null;
+        imageOverlay._foregroundSprite = null;
+        imageOverlay._fpsDivider = 1;
+        imageOverlay._fpsCounter = 0;
+
         // create renderer
         imageOverlay._setContainer(new PIXI.Container());
         imageOverlay._setRenderer(PIXI.autoDetectRenderer(128, 128, {
@@ -22,138 +33,9 @@
 
     }
 
-    ImageOverlay.prototype.initializeMask = function (pathToImageList) {
-
-        var imageOverlay = this;
-
-        pathToImageList = pathToImageList.reverse();
-
-        var foregroundSprite = imageOverlay.getForegroundSprite();
-        var container = imageOverlay.getContainer();
-
-        imageOverlay._setFrameIndex(0);
-
-        imageOverlay._setMask(pathToImageList.map(function (pathToImage) {
-
-            var maskSprite = new PIXI.Sprite.fromImage(pathToImage);
-            imageOverlay._fitToRenderSize(maskSprite);
-
-            var newSprite = new PIXI.Sprite(foregroundSprite.texture);
-
-            imageOverlay._fitToRenderSize(newSprite);
-
-            container.addChildAt(maskSprite, 0);
-
-            newSprite.mask = maskSprite;
-
-            return newSprite;
-
-        }));
-
-        imageOverlay._silentUpdate();
-
-    };
-
-    ImageOverlay.prototype.playMask = function () {
-
-        var imageOverlay = this;
-        var ticker = imageOverlay.getTicker();
-
-        imageOverlay._setIsActive(true);
-
-        imageOverlay._setFrameIndex(0);
-
-        ticker.start();
-
-    };
-
-
-    ImageOverlay.prototype.setRenderSize = function (width, height) {
-
-        var imageOverlay = this;
-        var renderer = imageOverlay.getRenderer();
-
-        renderer.resize(width, height);
-
-    };
-
-    ImageOverlay.prototype.initializeImage = function (pathToImage, zIndex) {
-
-        var imageOverlay = this;
-
-        return new Promise(function (resolve, reject) {
-
-            var sprite = new PIXI.Sprite.fromImage(pathToImage);
-
-            sprite
-                .texture.baseTexture
-                .on('loaded', function () {
-                    imageOverlay.addSprite(sprite, zIndex);
-                    resolve(sprite);
-                })
-                .on('error', reject);
-
-        });
-
-    };
-
-    ImageOverlay.prototype.initializeBackgroundImage = function (pathToImage) {
-
-        var imageOverlay = this;
-
-        return this.initializeImage(pathToImage, BACKGROUND_IMAGE_INDEX)
-            .then(function (sprite) {
-                imageOverlay._fitToRenderSize(sprite);
-                imageOverlay._setBackgroundSprite(sprite);
-            });
-
-    };
-
-    ImageOverlay.prototype.initializeForegroundImage = function (pathToImage) {
-
-        var imageOverlay = this;
-
-        return this.initializeImage(pathToImage, FOREGROUND_IMAGE_INDEX)
-            .then(function (sprite) {
-                imageOverlay._fitToRenderSize(sprite);
-                imageOverlay._setForegroundSprite(sprite);
-            });
-
-    };
-
-    ImageOverlay.prototype._fitToRenderSize = function (sprite) {
-
-        var imageOverlay = this;
-        var renderer = imageOverlay.getRenderer();
-
-        sprite.width = renderer.width;
-        sprite.height = renderer.height;
-
-    };
-
-    ImageOverlay.prototype.addSprite = function (sprite, zIndex) {
-
-        var imageOverlay = this;
-        var container = imageOverlay.getContainer();
-
-        container.addChild(sprite);
-
-        sprite.zIndex = zIndex || 0;
-
-        container.children.sort(function (a, b) {
-            return a.zIndex - b.zIndex;
-        });
-
-        imageOverlay._silentUpdate();
-
-    };
-
     //////////////////////////////////////////////////
-    // Private methods and properties
+    // Updates
     //////////////////////////////////////////////////
-
-
-    // var counter = 0;
 
     ImageOverlay.prototype._update = function () {
 
@@ -191,6 +73,60 @@
 
     };
 
+    //////////////////////////////////////////////////
+    // Mask
+    //////////////////////////////////////////////////
+
+    ImageOverlay.prototype.addMask = function (pathToImageList) {
+
+        var imageOverlay = this;
+
+        return Promise.all(pathToImageList.map(function (pathToImage) {
+            return imageOverlay._initializeMaskSprite(pathToImage);
+        })).then(function (masks) {
+            imageOverlay._pushMask(masks);
+            imageOverlay._silentUpdate();
+        });
+
+    };
+
+    ImageOverlay.prototype.playMask = function () {
+
+        var imageOverlay = this;
+        var ticker = imageOverlay.getTicker();
+
+        imageOverlay._setIsActive(true);
+
+        imageOverlay._setFrameIndex(0);
+
+        ticker.start();
+
+    };
+
+    ImageOverlay.prototype._initializeMaskSprite = function (pathToImage) {
+
+        var imageOverlay = this;
+
+        var foregroundSprite = imageOverlay.getForegroundSprite();
+        var container = imageOverlay.getContainer();
+
+        return imageOverlay.initializeImage(pathToImage).then(function (maskSprite) {
+
+            imageOverlay._fitToRenderSize(maskSprite);
+
+            var newSprite = new PIXI.Sprite(foregroundSprite.texture);
+            imageOverlay._fitToRenderSize(newSprite);
+
+            container.addChildAt(maskSprite, 0);
+
+            newSprite.mask = maskSprite;
+
+            return newSprite;
+
+        });
+
+    };
+
     ImageOverlay.prototype._updateMask = function () {
 
         var imageOverlay = this;
@@ -219,18 +155,6 @@
         }
 
     };
-
-    ImageOverlay.prototype._cleanContainer = function () {
-
-        var imageOverlay = this;
-        var container = imageOverlay.getContainer();
-
-        while (container.children.length > 0) {
-            container.removeChild(container.getChildAt(0));
-        }
-
-    };
-
 
     //////////////////////////////////////////////////
     // Ticker
@@ -261,19 +185,114 @@
     };
 
     //////////////////////////////////////////////////
-    // Getters / Setters
+    // Sprite initializing
     //////////////////////////////////////////////////
 
-    ImageOverlay.prototype._isActive = false;
-    ImageOverlay.prototype._container = null;
-    ImageOverlay.prototype._renderer = null;
-    ImageOverlay.prototype._ticker = null;
-    ImageOverlay.prototype._mask = null;
-    ImageOverlay.prototype._frameIndex = 0;
-    ImageOverlay.prototype._backgroundSprite = null;
-    ImageOverlay.prototype._foregroundSprite = null;
-    ImageOverlay.prototype._fpsDivider = 1;
-    ImageOverlay.prototype._fpsCounter = 0;
+    ImageOverlay.prototype.initializeImage = function (pathToImage) {
+
+        return new Promise(function (resolve, reject) {
+
+            var cachedTexture = PIXI.utils.TextureCache[pathToImage];
+
+            var sprite = new PIXI.Sprite.fromImage(pathToImage);
+
+            if (cachedTexture && cachedTexture.baseTexture.hasLoaded) {
+                resolve(sprite);
+                return;
+            }
+
+            sprite
+                .texture.baseTexture
+                .once('loaded', function () {
+                    resolve(sprite);
+                })
+                .once('error', reject);
+
+        });
+
+    };
+
+    ImageOverlay.prototype.initializeBackgroundImage = function (pathToImage) {
+
+        var imageOverlay = this;
+
+        return this.initializeImage(pathToImage)
+            .then(function (sprite) {
+                imageOverlay.addSprite(sprite, BACKGROUND_IMAGE_INDEX);
+                imageOverlay._fitToRenderSize(sprite);
+                imageOverlay._setBackgroundSprite(sprite);
+            });
+
+    };
+
+    ImageOverlay.prototype.initializeForegroundImage = function (pathToImage) {
+
+        var imageOverlay = this;
+
+        return this.initializeImage(pathToImage)
+            .then(function (sprite) {
+                imageOverlay.addSprite(sprite, FOREGROUND_IMAGE_INDEX);
+                imageOverlay._fitToRenderSize(sprite);
+                imageOverlay._setForegroundSprite(sprite);
+            });
+
+    };
+
+
+    //////////////////////////////////////////////////
+    // Render
+    //////////////////////////////////////////////////
+
+    ImageOverlay.prototype.setRenderSize = function (width, height) {
+
+        var imageOverlay = this;
+        var renderer = imageOverlay.getRenderer();
+
+        renderer.resize(width, height);
+
+    };
+
+    ImageOverlay.prototype.addSprite = function (sprite, zIndex) {
+
+        var imageOverlay = this;
+        var container = imageOverlay.getContainer();
+
+        container.addChild(sprite);
+
+        sprite.zIndex = zIndex || 0;
+
+        container.children.sort(function (a, b) {
+            return a.zIndex - b.zIndex;
+        });
+
+        imageOverlay._silentUpdate();
+
+    };
+
+    ImageOverlay.prototype._cleanContainer = function () {
+
+        var imageOverlay = this;
+        var container = imageOverlay.getContainer();
+
+        while (container.children.length > 0) {
+            container.removeChild(container.getChildAt(0));
+        }
+
+    };
+
+    ImageOverlay.prototype._fitToRenderSize = function (sprite) {
+
+        var imageOverlay = this;
+        var renderer = imageOverlay.getRenderer();
+
+        sprite.width = renderer.width;
+        sprite.height = renderer.height;
+
+    };
+
+    //////////////////////////////////////////////////
+    // Getters / Setters
+    //////////////////////////////////////////////////
 
     // only GET
     ImageOverlay.prototype.getCanvas = function () {
@@ -309,11 +328,11 @@
 
 
     ImageOverlay.prototype.getMask = function () {
-        return this._mask;
+        return this._masks[0];
     };
 
-    ImageOverlay.prototype._setMask = function (spritesList) {
-        return this._mask = spritesList;
+    ImageOverlay.prototype._pushMask = function (spritesList) {
+        return this._masks.push(spritesList);
     };
 
 
