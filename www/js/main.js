@@ -2,6 +2,7 @@
 
     "use strict";
 
+/*
     function main() {
 
         ImageOverlay
@@ -11,6 +12,7 @@
             .then(createImage);
 
     }
+*/
 
     function createImage() {
 
@@ -18,27 +20,25 @@
 
         imageOverlay.setRenderSize(600, 400);
 
-        var maskArray = [];
-        for (var i = 0; i < 16; i += 1) {
-            maskArray.push('fading-src/fade-1st-' + (i < 10 ? '0' : '') + i + '.png');
-            // maskArray.push('fade-1st-' + (i < 10 ? '0' : '') + i + '.png');
-        }
-
-        // maskArray = maskArray.reverse();
 
         Promise.all([
             imageOverlay.initializeBackgroundImage('image/death-stars-1.jpg'),
             imageOverlay.initializeForegroundImage('image/death-stars-2.jpg')
         ]).then(function () {
+
+            var maskArray = [];
+
+            for (var i = 0; i < 16; i += 1) {
+                maskArray.push('fading-src/fade-1st-' + (i < 10 ? '0' : '') + i + '.png');
+            }
+
+            imageOverlay.initializeMask(maskArray);
+
             document.body.appendChild(imageOverlay.getCanvas());
 
             setTimeout(function () {
-                imageOverlay.initializeMask(maskArray);
-            }, 500);
-
-            setTimeout(function () {
                 imageOverlay.playMask()
-            }, 2000);
+            }, 1000);
 
 
             // var mask = imageOverlay.getMask();
@@ -59,7 +59,6 @@
             // imageOverlay.getTicker().start();
 
         });
-
 
     }
 

@@ -49,41 +49,27 @@
         var foregroundSprite = imageOverlay.getForegroundSprite();
         // var backgroundSprite = imageOverlay.getBackgroundSprite();
         var renderer = imageOverlay.getRenderer();
+        var rendererWidth = renderer.width;
+        var rendererHeight = renderer.height;
+        var container = imageOverlay.getContainer();
 
         imageOverlay._setFrameIndex(0);
 
-        // pathToImageList = pathToImageList.reverse();
-
         imageOverlay._setMask(pathToImageList.map(function (pathToImage) {
 
-            var sprite = PIXI.Sprite.fromImage(pathToImage);
+            var maskSprite = new PIXI.Sprite.fromImage(pathToImage);
+            var newSprite = new PIXI.Sprite(foregroundSprite.texture);
 
-            sprite.width = renderer.width;
-            sprite.height = renderer.height;
+            maskSprite.width = rendererWidth;
+            maskSprite.height = rendererHeight;
 
-            return sprite;
+            container.addChild(maskSprite);
+
+            newSprite.mask = maskSprite;
+
+            return newSprite;
 
         }));
-
-
-
-        setTimeout(function () {
-
-            var newMask = imageOverlay.getMask().map(function (sprite) {
-
-                var newSprite = new PIXI.Sprite(foregroundSprite.texture);
-
-                imageOverlay.getContainer().addChild(sprite);
-
-                newSprite.mask = sprite;
-
-                return newSprite;
-
-            });
-
-            imageOverlay._setMask(newMask);
-
-        }, 1000);
 
     };
 
@@ -174,7 +160,7 @@
     //////////////////////////////////////////////////
 
 
-    var counter = 0;
+    // var counter = 0;
 
     ImageOverlay.prototype._update = function () {
 
@@ -186,19 +172,11 @@
 
         renderer.render(container);
 
-        counter += 1;
-
-        if (!(counter % 20)) {
-
-            if (imageOverlay.getIsActive()) {
-                imageOverlay._updateMask();
-            }
-
+        if (imageOverlay.getIsActive()) {
+            imageOverlay._updateMask();
         }
 
     };
-
-    // var lastFrame;
 
     ImageOverlay.prototype._updateMask = function () {
 
@@ -210,47 +188,25 @@
         var currentFrameIndex = Math.floor(frameIndex);
         var container = imageOverlay.getContainer();
 
+        while (container.children.length > 1) { // leave background only
+            container.removeChild(container.getChildAt(1));
+        }
+
         if (currentFrameIndex >= mask.length) {
+
             console.log('stop');
             imageOverlay._setIsActive(false);
-            imageOverlay.getTicker().stop();
-            foregroundSprite.mask = null;
-        } else {
-            console.log('update');
-
-            // lastFrame = currentFrameIndex;
-
-            // var texture = PIXI.Texture.fromImage('image/death-stars-2.jpg');
-            //
-            // foregroundSprite = new PIXI.Sprite(texture);
-
+            // container.addChild(backgroundSprite);
             // foregroundSprite.mask = null;
-            // debugger
-            // mask[currentFrameIndex];
-            // foregroundSprite.rotation += 0.1;
-            // foregroundSprite.anchor.x = 0.5;
-            // foregroundSprite.anchor.y = 0.5;
-            // foregroundSprite.position.x = 300;
-            // foregroundSprite.position.y = 200;
+            imageOverlay._update();
+            imageOverlay.getTicker().stop();
 
+        } else {
 
-            while (container.children.length > 0) {
-                var child = container.getChildAt(0);
-                container.removeChild(child);
-            }
+            console.log('update frame');
 
-            // var texture = new PIXI.Texture.fromCanvas(imageOverlay.getCanvas());
-            //
-            // var newSprite = new PIXI.Sprite(texture);
-            //
-            // setTimeout(function () {
-                container.addChild(backgroundSprite);
-                // container.addChild(foregroundSprite);
-                container.addChild(mask[currentFrameIndex]);
-            // }, 100);
-
-
-            // container.addChild(newSprite);
+            // container.addChild(backgroundSprite);
+            container.addChild(mask[currentFrameIndex]);
 
             imageOverlay._setFrameIndex(frameIndex + 1);
 
@@ -276,9 +232,15 @@
         var ticker = new PIXI.ticker.Ticker();
         var imageOverlay = this;
 
+        ticker.autoStart = false;
+
+        ticker.speed = 0.2;
+
         ticker.add(imageOverlay._update, imageOverlay);
 
-        ticker.stop();
+        ticker.speed = 0.2;
+
+        // ticker.stop();
 
         imageOverlay._setTicker(ticker);
 
