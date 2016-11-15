@@ -81,8 +81,13 @@
 
         var imageOverlay = this;
 
+        var options = {
+            flipX: !getRandomBetween(2),
+            flipY: !getRandomBetween(2)
+        };
+
         return Promise.all(pathToImageList.map(function (pathToImage) {
-            return imageOverlay._initializeMaskSprite(pathToImage);
+            return imageOverlay._initializeMaskSprite(pathToImage, options);
         })).then(function (masks) {
             imageOverlay._pushMask(masks);
             imageOverlay._silentUpdate();
@@ -103,12 +108,20 @@
 
     };
 
-    ImageOverlay.prototype._initializeMaskSprite = function (pathToImage) {
+    ImageOverlay.prototype._initializeMaskSprite = function (pathToImage, options) {
 
         var imageOverlay = this;
 
         var foregroundSprite = imageOverlay.getForegroundSprite();
         var container = imageOverlay.getContainer();
+
+        var renderer = imageOverlay.getRenderer();
+
+        var rendererWidth = renderer.width;
+        var rendererHeight = renderer.height;
+
+        var centerX = rendererWidth / 2;
+        var centerY = rendererHeight / 2;
 
         return imageOverlay.initializeImage(pathToImage).then(function (maskSprite) {
 
@@ -118,6 +131,17 @@
             imageOverlay._fitToRenderSize(newSprite);
 
             container.addChildAt(maskSprite, 0);
+
+            maskSprite.scale.set(
+                options.flipX ? -1 : 1,
+                options.flipY ? -1 : 1
+            );
+
+            maskSprite.position.set(centerX, centerY);
+            maskSprite.anchor.set(0.5, 0.5);
+
+            maskSprite.width = rendererWidth;
+            maskSprite.height = rendererHeight;
 
             newSprite.mask = maskSprite;
 
@@ -328,7 +352,8 @@
 
 
     ImageOverlay.prototype.getMask = function () {
-        return this._masks[0];
+        var masks = this._masks;
+        return masks[getRandomBetween(masks.length)];
     };
 
     ImageOverlay.prototype._pushMask = function (spritesList) {
@@ -393,5 +418,19 @@
         return this._fpsCounter += 1;
     };
 
+    //////////////////////////////////////////////////
+    // Helper
+    //////////////////////////////////////////////////
+
+    function getRandomBetween(start, stop) {
+
+        if (arguments.length === 1) {
+            stop = start;
+            start = 0;
+        }
+
+        return Math.floor(Math.random() * (stop - start) + start);
+
+    }
 
 }(window));

@@ -8,7 +8,7 @@
 
         imageOverlay.setRenderSize(320, 280);
 
-        imageOverlay.setFpsDivider(2);
+        imageOverlay.setFpsDivider(60);
 
         Promise.all([
             imageOverlay.initializeBackgroundImage('image/cat-1.jpg'),
@@ -40,11 +40,11 @@
 
     win.addEventListener('load', createImage, false);
     win.addEventListener('load', function () {
-        setTimeout(createImage, 1000);
-        setTimeout(createImage, 2000);
-        setTimeout(createImage, 3000);
-        setTimeout(createImage, 4000);
-        setTimeout(createImage, 5000);
+        setTimeout(createImage, 0);
+        setTimeout(createImage, 0);
+        setTimeout(createImage, 0);
+        setTimeout(createImage, 0);
+        setTimeout(createImage, 0);
     }, false);
     // win.addEventListener('load', main, false);
 
