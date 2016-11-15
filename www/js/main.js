@@ -6,14 +6,14 @@
 
         var imageOverlay = new ImageOverlay();
 
-        imageOverlay.setRenderSize(1360, 729);
+        imageOverlay.setRenderSize(1440, 884);
 
-        imageOverlay.setFpsDivider(2);
+        imageOverlay.setFpsDivider(1);
 
         Promise.all([
             // imageOverlay.initializeBackgroundImage('image/1photo.jpg'),
-            imageOverlay.initializeBackgroundImage('image/2photo.jpg'),
-            imageOverlay.initializeForegroundImage('image/1.svg')
+            imageOverlay.initializeBackgroundImage('image/nicole-croisille-visual.jpg'),
+            imageOverlay.initializeForegroundImage('image/france-rugby-visual.jpg')
         ]).then(function () {
 
             var masksArray = [[],[]],
@@ -34,7 +34,11 @@
 
         }).then(function () {
             document.body.appendChild(imageOverlay.getCanvas());
-            imageOverlay.playMask();
+
+            setTimeout(function () {
+                imageOverlay.playMask();
+            }, 2000);
+
         });
 
     }
