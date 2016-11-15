@@ -8,12 +8,20 @@
 
         imageOverlay.setRenderSize(1440, 884);
 
-        imageOverlay.setFpsDivider(1);
+        imageOverlay.setFpsDivider(2);
+
+        // from fade
+        var image1 = 'image/france-rugby-visual.jpg';
+        var image2 = 'image/1.svg';
+
+        // from tanks
+        // var image1 = 'image/1photo.jpg';
+        // var image2 = 'image/2photo.jpg';
 
         Promise.all([
             // imageOverlay.initializeBackgroundImage('image/1photo.jpg'),
-            imageOverlay.initializeBackgroundImage('image/france-rugby-visual.jpg'),
-            imageOverlay.initializeForegroundImage('image/1.svg')
+            imageOverlay.initializeBackgroundImage(image1),
+            imageOverlay.initializeForegroundImage(image2)
         ]).then(function () {
 
             var masksArray = [[],[]],
