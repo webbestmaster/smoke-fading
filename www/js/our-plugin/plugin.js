@@ -432,4 +432,31 @@
 
     }
 
+    ImageOverlay.utils = {
+
+        createPixel: function createPixel(color, opacity) {
+
+            var svgSrc = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1px" height="1px" viewBox="0 0 1 1" ><rect {{attr}} x="0" y="0" width="1" height="1"/></svg>';
+
+            var attr;
+
+            if (color === undefined || color === null) {
+                color = '000000';
+            }
+
+            if (opacity === undefined || opacity === null) {
+                opacity = '1';
+            }
+
+            attr = 'fill="#' + color + '" fill-opacity="' + opacity + '"';
+
+            svgSrc = svgSrc.replace('{{attr}}', attr);
+
+            return 'data:image/svg+xml;base64,' + window.btoa(svgSrc);
+
+        }
+
+    };
+
+
 }(window));
