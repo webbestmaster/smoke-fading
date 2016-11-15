@@ -12,8 +12,8 @@
 
         Promise.all([
             // imageOverlay.initializeBackgroundImage('image/1photo.jpg'),
-            imageOverlay.initializeBackgroundImage('image/nicole-croisille-visual.jpg'),
-            imageOverlay.initializeForegroundImage('image/france-rugby-visual.jpg')
+            imageOverlay.initializeBackgroundImage('image/france-rugby-visual.jpg'),
+            imageOverlay.initializeForegroundImage('image/1.svg')
         ]).then(function () {
 
             var masksArray = [[],[]],
