@@ -8,11 +8,12 @@
 
         imageOverlay.setRenderSize(1360, 729);
 
-        imageOverlay.setFpsDivider(1);
+        imageOverlay.setFpsDivider(2);
 
         Promise.all([
-            imageOverlay.initializeBackgroundImage('image/1photo.jpg'),
-            imageOverlay.initializeForegroundImage('image/2photo.jpg')
+            // imageOverlay.initializeBackgroundImage('image/1photo.jpg'),
+            imageOverlay.initializeBackgroundImage('image/2photo.jpg'),
+            imageOverlay.initializeForegroundImage('image/1.svg')
         ]).then(function () {
 
             var masksArray = [[],[]],
@@ -27,8 +28,8 @@
             }
 
             return Promise.all([
-                imageOverlay.addMask(masksArray[0]),
-                imageOverlay.addMask(masksArray[1])
+                imageOverlay.addMask(masksArray[0])
+                // imageOverlay.addMask(masksArray[1])
             ]);
 
         }).then(function () {
