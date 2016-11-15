@@ -6,13 +6,13 @@
 
         var imageOverlay = new ImageOverlay();
 
-        imageOverlay.setRenderSize(320, 280);
+        imageOverlay.setRenderSize(1360, 729);
 
-        imageOverlay.setFpsDivider(60);
+        imageOverlay.setFpsDivider(1);
 
         Promise.all([
-            imageOverlay.initializeBackgroundImage('image/cat-1.jpg'),
-            imageOverlay.initializeForegroundImage('image/cat-2.jpg')
+            imageOverlay.initializeBackgroundImage('image/1photo.jpg'),
+            imageOverlay.initializeForegroundImage('image/2photo.jpg')
         ]).then(function () {
 
             var masksArray = [[],[]],
@@ -39,13 +39,5 @@
     }
 
     win.addEventListener('load', createImage, false);
-    win.addEventListener('load', function () {
-        setTimeout(createImage, 0);
-        setTimeout(createImage, 0);
-        setTimeout(createImage, 0);
-        setTimeout(createImage, 0);
-        setTimeout(createImage, 0);
-    }, false);
-    // win.addEventListener('load', main, false);
 
 }(window));
