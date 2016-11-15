@@ -140,8 +140,7 @@
             maskSprite.position.set(centerX, centerY);
             maskSprite.anchor.set(0.5, 0.5);
 
-            maskSprite.width = rendererWidth;
-            maskSprite.height = rendererHeight;
+            imageOverlay._fitToRenderSize(maskSprite);
 
             newSprite.mask = maskSprite;
 
