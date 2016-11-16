@@ -26,7 +26,7 @@
         // create renderer
         imageOverlay._setContainer(new PIXI.Container());
         imageOverlay._setRenderer(PIXI.autoDetectRenderer(128, 128, {
-            clearBeforeRender: false
+            transparent: true
         }));
 
         imageOverlay._initializeTicker();
@@ -53,11 +53,11 @@
             return;
         }
 
-        renderer.render(container);
-
         if (imageOverlay.getIsActive()) {
             imageOverlay._updateMask();
         }
+
+        renderer.render(container);
 
     };
 
@@ -157,7 +157,7 @@
         var frameIndex = imageOverlay.getFrameIndex();
         // var foregroundSprite = imageOverlay.getForegroundSprite();
         var backgroundSprite = imageOverlay.getBackgroundSprite();
-        var currentFrameIndex = Math.floor(frameIndex);
+        var currentFrameIndex = frameIndex;
         var container = imageOverlay.getContainer();
 
         imageOverlay._cleanContainer();
@@ -166,15 +166,15 @@
 
         console.log('update mask');
 
-        if (currentFrameIndex >= mask.length) {
-            console.log('stop');
-            imageOverlay._setIsActive(false);
-            imageOverlay._silentUpdate();
-            imageOverlay.getTicker().stop();
-        } else {
+        // if (currentFrameIndex >= mask.length) {
+        if (mask[currentFrameIndex]) {
             console.log('update frame');
             container.addChild(mask[currentFrameIndex]);
             imageOverlay._setFrameIndex(frameIndex + 1);
+        } else {
+            console.log('stop');
+            imageOverlay._setIsActive(false);
+            imageOverlay.getTicker().stop();
         }
 
     };
