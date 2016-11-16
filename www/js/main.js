@@ -8,7 +8,7 @@
 
         imageOverlay.setRenderSize(480, 320);
 
-        imageOverlay.setFpsDivider(60);
+        imageOverlay.setFpsDivider(30);
 
         // from fade
         var image1 = 'image/1photo.jpg';
@@ -31,12 +31,12 @@
             for (i = 0; i < 16; i += 1) {
                 masksArray[0].push('fading-src/fade-1st-' + (i < 10 ? '0' : '') + i + '.png');
             }
-            masksArray[0].push(ImageOverlay.utils.createPixel(null, 1));
+            // masksArray[0].push(ImageOverlay.utils.createPixel(null, 1));
 
             for (i = 0; i < 16; i += 1) {
                 masksArray[1].push('fading-src/fade-2nd-' + (i < 10 ? '0' : '') + i + '.png');
             }
-            masksArray[1].push(ImageOverlay.utils.createPixel(null, 1));
+            // masksArray[1].push(ImageOverlay.utils.createPixel(null, 1));
 
             var maskOptions = {
                 flipX: null, // true or false, if flipX is not passed or flipX === null - will be get random value
@@ -55,8 +55,8 @@
 
             imageOverlay.drawMaskIndex(0);
 
-            imageOverlay.playMask().then(function () {
-                imageOverlay.drawMaskIndex(16);
+            imageOverlay.playMask('end', -1).then(function () {
+                // imageOverlay.drawMaskIndex(16);
                 console.log('play is end!!!222');
             });
 

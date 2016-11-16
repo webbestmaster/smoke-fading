@@ -24,6 +24,7 @@
         imageOverlay._fpsCounter = 0;
         imageOverlay._onPlayEndCallback = null;
         imageOverlay._currentWorkingMaskIndex = null;
+        imageOverlay._frameIndexStep = 0;
 
         // create renderer
         imageOverlay._setContainer(new PIXI.Container());
@@ -108,10 +109,41 @@
 
     };
 
-    ImageOverlay.prototype.playMask = function () {
+    ImageOverlay.prototype.parseBeginEndMaskIndex = function (frameIndex) {
 
         var imageOverlay = this;
+
+        if (frameIndex === 'begin') { // 'begin'
+            return 0;
+        }
+
+        if (frameIndex === 'end') { // or 'end'
+            return imageOverlay.getMasks()[imageOverlay.getCurrentWorkingMaskIndex()].length - 1;
+        }
+
+        return frameIndex;
+
+    };
+
+    ImageOverlay.prototype.playMask = function (frameIndex, frameIndexStep) {
+
+        var imageOverlay = this;
+
         var ticker = imageOverlay.getTicker();
+
+        imageOverlay.defineCurrentWorkingMaskIndex();
+
+        if (frameIndex === undefined || frameIndex === null) {
+            frameIndex = imageOverlay.getFrameIndex();
+        } else {
+            frameIndex = imageOverlay.parseBeginEndMaskIndex(frameIndex);
+        }
+
+        if (frameIndexStep === undefined || frameIndexStep === null) {
+            imageOverlay._setFrameIndexStep(1);
+        } else {
+            imageOverlay._setFrameIndexStep(frameIndexStep);
+        }
 
         return new Promise(function (resolve, reject) {
 
@@ -121,7 +153,7 @@
 
             imageOverlay._setIsActive(true);
 
-            // imageOverlay._setFrameIndex(0);
+            imageOverlay._setFrameIndex(frameIndex);
 
             ticker.start();
 
@@ -135,7 +167,12 @@
 
         imageOverlay.defineCurrentWorkingMaskIndex();
 
+
+
+
         imageOverlay._setFrameIndex(index);
+
+        imageOverlay._setFrameIndexStep(0);
 
         imageOverlay._updateMask();
 
@@ -188,7 +225,6 @@
     ImageOverlay.prototype._updateMask = function () {
 
         var imageOverlay = this;
-        imageOverlay.defineCurrentWorkingMaskIndex();
 
         var currentWorkingMaskIndex = imageOverlay.getCurrentWorkingMaskIndex();
 
@@ -198,6 +234,8 @@
         var backgroundSprite = imageOverlay.getBackgroundSprite();
         var currentFrameIndex = frameIndex;
         var container = imageOverlay.getContainer();
+
+        var frameIndexStep = imageOverlay._getFrameIndexStep();
 
         imageOverlay._cleanContainer();
         // imageOverlay._fitToRenderSize(backgroundSprite);
@@ -209,9 +247,10 @@
         if (mask[currentFrameIndex]) {
             console.log('update frame');
             container.addChild(mask[currentFrameIndex]);
-            imageOverlay._setFrameIndex(frameIndex + 1);
+            imageOverlay._setFrameIndex(frameIndex + frameIndexStep);
         } else {
             console.log('stop');
+            container.addChild(mask[currentFrameIndex - frameIndexStep]);
             imageOverlay._setIsActive(false);
             imageOverlay.getTicker().stop();
             imageOverlay._executePlayEndCallback();
@@ -457,6 +496,14 @@
 
     ImageOverlay.prototype._setFrameIndex = function (frameIndex) {
         return this._frameIndex = frameIndex;
+    };
+
+    ImageOverlay.prototype._getFrameIndexStep = function () {
+        return this._frameIndexStep;
+    };
+
+    ImageOverlay.prototype._setFrameIndexStep = function (frameIndexStep) {
+        return this._frameIndexStep = frameIndexStep;
     };
 
 
