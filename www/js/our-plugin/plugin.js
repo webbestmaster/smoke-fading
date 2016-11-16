@@ -333,6 +333,7 @@
 
         return this.initializeImage(pathToImage)
             .then(function (sprite) {
+                imageOverlay.setRenderSize(sprite.width, sprite.height);
                 imageOverlay.addSprite(sprite, FOREGROUND_IMAGE_INDEX);
                 imageOverlay._fitToRenderSize(sprite);
                 imageOverlay._setForegroundSprite(sprite);

@@ -6,9 +6,9 @@
 
         var imageOverlay = new ImageOverlay();
 
-        imageOverlay.setRenderSize(480, 320);
+        // imageOverlay.setRenderSize(480, 320);
 
-        imageOverlay.setFpsDivider(30);
+        imageOverlay.setFpsDivider(2);
 
         // from fade
         var image1 = 'image/1photo.jpg';
