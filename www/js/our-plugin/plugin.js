@@ -84,9 +84,9 @@
 
         options = options || {};
 
-        options.flipX = options.hasOwnProperty('flipX') ? options.flipX : !getRandomBetween(2);
-        options.flipY = options.hasOwnProperty('flipY') ? options.flipY : !getRandomBetween(2);
-        options.isInvert = options.hasOwnProperty('isInvert') ? options.isInvert : !false;
+        options.flipX = (options.hasOwnProperty('flipX') && options.flipX !== null) ? options.flipX : !getRandomBetween(2);
+        options.flipY = (options.hasOwnProperty('flipY') && options.flipY !== null) ? options.flipY : !getRandomBetween(2);
+        options.isInvert = options.hasOwnProperty('isInvert') ? options.isInvert : false;
 
         var p = Promise.resolve(pathToImageList);
 

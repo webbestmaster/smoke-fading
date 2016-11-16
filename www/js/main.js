@@ -36,8 +36,14 @@
                 masksArray[1].push('fading-src/fade-2nd-' + (i < 10 ? '0' : '') + i + '.png');
             }
 
+            var maskOptions = {
+                flipX: null, // true or false, if flipX is not passed or flipX === null - will be get random value
+                flipY: null, // true or false, if flipY is not passed or flipY === null - will be get random value
+                isInvert: true // true or false, invert colors (RGB only, not Alpha), default value - false
+            };
+
             return Promise.all([
-                imageOverlay.addMask(masksArray[0])
+                imageOverlay.addMask(masksArray[0], maskOptions)
                 // imageOverlay.addMask(masksArray[1])
             ]);
 
