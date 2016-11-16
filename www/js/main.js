@@ -31,10 +31,12 @@
             for (i = 0; i < 16; i += 1) {
                 masksArray[0].push('fading-src/fade-1st-' + (i < 10 ? '0' : '') + i + '.png');
             }
+            masksArray[0].push(ImageOverlay.utils.createPixel(null, 1));
 
             for (i = 0; i < 16; i += 1) {
                 masksArray[1].push('fading-src/fade-2nd-' + (i < 10 ? '0' : '') + i + '.png');
             }
+            masksArray[1].push(ImageOverlay.utils.createPixel(null, 1));
 
             var maskOptions = {
                 flipX: null, // true or false, if flipX is not passed or flipX === null - will be get random value
@@ -43,15 +45,18 @@
             };
 
             return Promise.all([
-                imageOverlay.addMask(masksArray[0], maskOptions)
-                // imageOverlay.addMask(masksArray[1])
+                imageOverlay.addMask(masksArray[0], maskOptions),
+                imageOverlay.addMask(masksArray[1], maskOptions)
             ]);
 
         }).then(function () {
 
             document.body.appendChild(imageOverlay.getCanvas());
 
+            imageOverlay.drawMaskIndex(0);
+
             imageOverlay.playMask().then(function () {
+                imageOverlay.drawMaskIndex(16);
                 console.log('play is end!!!222');
             });
 

@@ -23,6 +23,7 @@
         imageOverlay._fpsDivider = 1;
         imageOverlay._fpsCounter = 0;
         imageOverlay._onPlayEndCallback = null;
+        imageOverlay._currentWorkingMaskIndex = null;
 
         // create renderer
         imageOverlay._setContainer(new PIXI.Container());
@@ -120,11 +121,25 @@
 
             imageOverlay._setIsActive(true);
 
-            imageOverlay._setFrameIndex(0);
+            // imageOverlay._setFrameIndex(0);
 
             ticker.start();
 
         });
+
+    };
+
+    ImageOverlay.prototype.drawMaskIndex = function (index) {
+
+        var imageOverlay = this;
+
+        imageOverlay.defineCurrentWorkingMaskIndex();
+
+        imageOverlay._setFrameIndex(index);
+
+        imageOverlay._updateMask();
+
+        imageOverlay._silentUpdate();
 
     };
 
@@ -173,13 +188,16 @@
     ImageOverlay.prototype._updateMask = function () {
 
         var imageOverlay = this;
-        var mask = imageOverlay.getMask();
+        imageOverlay.defineCurrentWorkingMaskIndex();
+
+        var currentWorkingMaskIndex = imageOverlay.getCurrentWorkingMaskIndex();
+
+        var mask = imageOverlay.getMasks()[currentWorkingMaskIndex];
         var frameIndex = imageOverlay.getFrameIndex();
-        // var foregroundSprite = imageOverlay.getForegroundSprite();
+
         var backgroundSprite = imageOverlay.getBackgroundSprite();
         var currentFrameIndex = frameIndex;
         var container = imageOverlay.getContainer();
-        // var onPlayEndCallback = imageOverlay._getOnPlayEndCallback();
 
         imageOverlay._cleanContainer();
         // imageOverlay._fitToRenderSize(backgroundSprite);
@@ -388,9 +406,35 @@
     };
 
 
-    ImageOverlay.prototype.getMask = function () {
-        var masks = this._masks;
-        return masks[getRandomBetween(masks.length)];
+    ImageOverlay.prototype.defineCurrentWorkingMaskIndex = function () {
+
+        var imageOverlay = this;
+
+        var masks = imageOverlay.getMasks();
+
+        var currentWorkingMaskIndex = imageOverlay.getCurrentWorkingMaskIndex();
+
+        if (currentWorkingMaskIndex === null) {
+            imageOverlay._setCurrentWorkingMaskIndex(getRandomBetween(masks.length));
+        }
+
+    };
+
+    ImageOverlay.prototype.undefineCurrentWorkingMaskIndex = function () {
+        this._setCurrentWorkingMaskIndex(null);
+    };
+
+    ImageOverlay.prototype._setCurrentWorkingMaskIndex = function (index) {
+        return this._currentWorkingMaskIndex = index;
+    };
+
+    ImageOverlay.prototype.getCurrentWorkingMaskIndex = function () {
+        return this._currentWorkingMaskIndex;
+    };
+
+    ImageOverlay.prototype.getMasks = function () {
+        return this._masks;
+        // return masks[getRandomBetween(masks.length)];
     };
 
     ImageOverlay.prototype._pushMask = function (spritesList) {
@@ -456,7 +500,7 @@
     };
 
     ImageOverlay.prototype._resetFpsCounter = function () {
-        return this._fpsCounter = -1;
+        return this._fpsCounter = 0;
     };
 
 
@@ -493,14 +537,14 @@
             var attr;
 
             if (color === undefined || color === null) {
-                color = '000000';
+                color = '#000000';
             }
 
             if (opacity === undefined || opacity === null) {
                 opacity = '1';
             }
 
-            attr = 'fill="#' + color + '" fill-opacity="' + opacity + '"';
+            attr = 'fill="' + color + '" fill-opacity="' + opacity + '"';
 
             svgSrc = svgSrc.replace('{{attr}}', attr);
 
