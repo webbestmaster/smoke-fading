@@ -22,6 +22,7 @@
         imageOverlay._foregroundSprite = null;
         imageOverlay._fpsDivider = 1;
         imageOverlay._fpsCounter = 0;
+        imageOverlay._onPlayEndCallback = null;
 
         // create renderer
         imageOverlay._setContainer(new PIXI.Container());
@@ -100,11 +101,17 @@
         var imageOverlay = this;
         var ticker = imageOverlay.getTicker();
 
-        imageOverlay._setIsActive(true);
+        return new Promise(function (resolve, reject) {
 
-        imageOverlay._setFrameIndex(0);
+            imageOverlay._setOnPlayEndCallback(resolve);
 
-        ticker.start();
+            imageOverlay._setIsActive(true);
+
+            imageOverlay._setFrameIndex(0);
+
+            ticker.start();
+
+        });
 
     };
 
@@ -159,6 +166,7 @@
         var backgroundSprite = imageOverlay.getBackgroundSprite();
         var currentFrameIndex = frameIndex;
         var container = imageOverlay.getContainer();
+        var onPlayEndCallback = imageOverlay._getOnPlayEndCallback();
 
         imageOverlay._cleanContainer();
         // imageOverlay._fitToRenderSize(backgroundSprite);
@@ -175,6 +183,7 @@
             console.log('stop');
             imageOverlay._setIsActive(false);
             imageOverlay.getTicker().stop();
+            imageOverlay._executePlayEndCallback();
         }
 
     };
@@ -314,6 +323,22 @@
     };
 
     //////////////////////////////////////////////////
+    // Events
+    //////////////////////////////////////////////////
+
+    ImageOverlay.prototype._executePlayEndCallback = function () {
+
+        var imageOverlay = this;
+        var onPlayEndCallback = imageOverlay._getOnPlayEndCallback();
+
+        if (onPlayEndCallback) {
+            imageOverlay._setOnPlayEndCallback(null);
+            return onPlayEndCallback();
+        }
+
+    };
+
+    //////////////////////////////////////////////////
     // Getters / Setters
     //////////////////////////////////////////////////
 
@@ -416,6 +441,16 @@
     ImageOverlay.prototype._increaseFpsCounter = function () {
         return this._fpsCounter += 1;
     };
+
+
+    ImageOverlay.prototype._getOnPlayEndCallback = function () {
+        return this._onPlayEndCallback;
+    };
+
+    ImageOverlay.prototype._setOnPlayEndCallback = function (onPlayEndCallback) {
+        return this._onPlayEndCallback = onPlayEndCallback;
+    };
+
 
     //////////////////////////////////////////////////
     // Helper

@@ -20,7 +20,8 @@
 
         Promise.all([
             // imageOverlay.initializeBackgroundImage('image/1photo.jpg'),
-            imageOverlay.initializeBackgroundImage(image1),
+            // imageOverlay.initializeBackgroundImage(image1),
+            imageOverlay.initializeBackgroundImage(ImageOverlay.utils.createPixel(null, 0)),
             imageOverlay.initializeForegroundImage(image2)
         ]).then(function () {
 
@@ -44,7 +45,9 @@
             document.body.appendChild(imageOverlay.getCanvas());
 
             setTimeout(function () {
-                imageOverlay.playMask();
+                imageOverlay.playMask().then(function () {
+                    console.log('play is end!!!222');
+                });
             }, 2000);
 
         });
