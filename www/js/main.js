@@ -8,7 +8,7 @@
 
         imageOverlay.setRenderSize(480, 320);
 
-        imageOverlay.setFpsDivider(2);
+        imageOverlay.setFpsDivider(60);
 
         // from fade
         var image1 = 'image/1photo.jpg';
@@ -42,13 +42,12 @@
             ]);
 
         }).then(function () {
+
             document.body.appendChild(imageOverlay.getCanvas());
 
-            setTimeout(function () {
-                imageOverlay.playMask().then(function () {
-                    console.log('play is end!!!222');
-                });
-            }, 2000);
+            imageOverlay.playMask().then(function () {
+                console.log('play is end!!!222');
+            });
 
         });
 

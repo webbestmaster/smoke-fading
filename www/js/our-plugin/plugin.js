@@ -78,18 +78,29 @@
     // Mask
     //////////////////////////////////////////////////
 
-    ImageOverlay.prototype.addMask = function (pathToImageList) {
+    ImageOverlay.prototype.addMask = function (pathToImageList, options) {
 
         var imageOverlay = this;
 
-        var options = {
-            flipX: !getRandomBetween(2),
-            flipY: !getRandomBetween(2)
-        };
+        options = options || {};
 
-        return Promise.all(pathToImageList.map(function (pathToImage) {
-            return imageOverlay._initializeMaskSprite(pathToImage, options);
-        })).then(function (masks) {
+        options.flipX = options.hasOwnProperty('flipX') ? options.flipX : !getRandomBetween(2);
+        options.flipY = options.hasOwnProperty('flipY') ? options.flipY : !getRandomBetween(2);
+        options.isInvert = options.hasOwnProperty('isInvert') ? options.isInvert : !false;
+
+        var p = Promise.resolve(pathToImageList);
+
+        if (options.isInvert) {
+            p = p.then(function (pathToImageList) {
+                return Promise.all(pathToImageList.map(ImageOverlay.utils.invertImage));
+            });
+        }
+
+        return p.then(function (pathToImageList) {
+            return Promise.all(pathToImageList.map(function (pathToImage) {
+                return imageOverlay._initializeMaskSprite(pathToImage, options);
+            }));
+        }).then(function (masks) {
             imageOverlay._pushMask(masks);
             imageOverlay._silentUpdate();
         });
@@ -102,6 +113,8 @@
         var ticker = imageOverlay.getTicker();
 
         return new Promise(function (resolve, reject) {
+
+            imageOverlay._resetFpsCounter();
 
             imageOverlay._setOnPlayEndCallback(resolve);
 
@@ -166,7 +179,7 @@
         var backgroundSprite = imageOverlay.getBackgroundSprite();
         var currentFrameIndex = frameIndex;
         var container = imageOverlay.getContainer();
-        var onPlayEndCallback = imageOverlay._getOnPlayEndCallback();
+        // var onPlayEndCallback = imageOverlay._getOnPlayEndCallback();
 
         imageOverlay._cleanContainer();
         // imageOverlay._fitToRenderSize(backgroundSprite);
@@ -442,6 +455,10 @@
         return this._fpsCounter += 1;
     };
 
+    ImageOverlay.prototype._resetFpsCounter = function () {
+        return this._fpsCounter = -1;
+    };
+
 
     ImageOverlay.prototype._getOnPlayEndCallback = function () {
         return this._onPlayEndCallback;
@@ -488,6 +505,68 @@
             svgSrc = svgSrc.replace('{{attr}}', attr);
 
             return 'data:image/svg+xml;base64,' + window.btoa(svgSrc);
+
+        },
+
+        loadImage: function (imagePath) {
+
+            return new Promise(function (resolve, reject) {
+
+                var image = new Image();
+
+                function onImageLoad() {
+                    image.removeEventListener('load', onImageLoad, false);
+                    image.removeEventListener('error', onImageError, false);
+                    resolve(image);
+                }
+
+                function onImageError() {
+                    image.removeEventListener('load', onImageLoad, false);
+                    image.removeEventListener('error', onImageError, false);
+                    reject();
+                }
+
+                image.addEventListener('load', onImageLoad, false);
+                image.addEventListener('error', onImageError, false);
+
+                image.src = imagePath;
+
+            });
+
+        },
+
+        invertImage: function (imagePath) {
+
+            return ImageOverlay.utils.loadImage(imagePath).then(function (image) {
+
+                var canvas = document.createElement('canvas');
+                canvas.width = image.width;
+                canvas.height = image.height;
+
+                var context = canvas.getContext('2d');
+
+                context.drawImage(image, 0, 0);
+
+                var imageData = context.getImageData(0, 0, image.width, image.height);
+                var data = imageData.data;
+
+                for (var i = 0, len = data.length; i < len; i += 4) {
+                    // red
+                    data[i] = 255 - data[i];
+                    // green
+                    data[i + 1] = 255 - data[i + 1];
+                    // blue
+                    data[i + 2] = 255 - data[i + 2];
+                    // alpha
+                    // data[i + 3] = 255 - data[i + 3];
+                }
+
+                // overwrite original image
+                context.putImageData(imageData, 0, 0);
+
+                return canvas.toDataURL();
+
+            });
 
         }
 
