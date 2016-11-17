@@ -1,0 +1,26 @@
+{
+  "name": "Smoke-Fading",
+  "version": "0.1.0",
+  "description": "PIXI fading plugin",
+  "main": "./www/js/our-plugin/smoke-fading.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webbestmaster/smoke-fading.git"
+  },
+  "keywords": [
+    "PIXI",
+    "plugin",
+    "fade",
+    "smoke",
+    "mask"
+  ],
+  "author": "webBestMaster",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/webbestmaster/smoke-fading/issues"
+  },
+  "homepage": "https://github.com/webbestmaster/smoke-fading#readme"
+}
