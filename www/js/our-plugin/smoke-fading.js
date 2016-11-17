@@ -29,7 +29,6 @@
 
         imageOverlay._defineDefaultProperties();
 
-        // create renderer
         imageOverlay._setContainer(new PIXI.Container());
         imageOverlay._setRenderer(PIXI.autoDetectRenderer(128, 128, {
             transparent: true
@@ -66,18 +65,7 @@
                 imageOverlay.initializeBackgroundImage(backgroundImagePath)
             ]);
         } else {
-            p = imageOverlay
-                .initializeForegroundImage(foregroundImagePath);
-                // .then(function () {
-                //     return imageOverlay.initializeBackgroundImage(ImageOverlay.utils.createPixel(null, 0));
-                // })
-                // .then(function () {
-                //     // hide sprite from renderer
-                //     var backgroundSprite = imageOverlay.getBackgroundSprite();
-                //     backgroundSprite.alpha = 0;
-                //     backgroundSprite.visible = 0;
-                //     backgroundSprite.renderable = 0;
-                // });
+            p = imageOverlay.initializeForegroundImage(foregroundImagePath);
         }
 
         if (options.masks) {
@@ -175,8 +163,6 @@
      */
     ImageOverlay.prototype._update = function () {
 
-        console.log('_update');
-
         var imageOverlay = this;
         var fpsDivider = imageOverlay.getFpsDivider();
         var fpsCounter = imageOverlay._getFpsCounter();
@@ -202,8 +188,6 @@
      * @private
      */
     ImageOverlay.prototype._silentUpdate = function () {
-
-        console.log('_silentUpdate');
 
         var imageOverlay = this;
         var renderer = imageOverlay.getRenderer();
@@ -261,11 +245,11 @@
 
         var imageOverlay = this;
 
-        if (frameIndex === 'begin') { // 'begin'
+        if (frameIndex === 'begin') {
             return 0;
         }
 
-        if (frameIndex === 'end') { // or 'end'
+        if (frameIndex === 'end') {
             return imageOverlay.getMasks()[imageOverlay.getCurrentWorkingMaskIndex()].length - 1;
         }
 
@@ -411,18 +395,12 @@
         var frameIndexStep = imageOverlay._getFrameIndexStep();
 
         imageOverlay._cleanContainer();
-        // imageOverlay._fitToRenderSize(backgroundSprite);
         container.addChild(backgroundSprite);
 
-        console.log('update mask');
-
-        // if (currentFrameIndex >= mask.length) {
         if (mask[currentFrameIndex]) {
-            console.log('update frame');
             container.addChild(mask[currentFrameIndex]);
             imageOverlay._setFrameIndex(frameIndex + frameIndexStep);
         } else {
-            console.log('stop');
             container.addChild(mask[currentFrameIndex - frameIndexStep]);
             imageOverlay._setIsActive(false);
             imageOverlay.getTicker().stop();
