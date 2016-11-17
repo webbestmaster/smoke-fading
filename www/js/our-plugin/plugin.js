@@ -47,6 +47,10 @@
     // Initialization
     //////////////////////////////////////////////////
 
+    /**
+     * @param options - see @constructor
+     * @private
+     */
     ImageOverlay.prototype._parseOptions = function (options) {
 
         var imageOverlay = this;
@@ -91,23 +95,53 @@
 
     };
 
+    /**
+     * @private
+     */
     ImageOverlay.prototype._defineDefaultProperties = function () {
 
         var imageOverlay = this;
 
+        // active or not imageOverlay
         imageOverlay._isActive = false;
+
+        // PIXI.Container
         imageOverlay._container = null;
+
+        // PIXI.Renderer
         imageOverlay._renderer = null;
+
+        // PIXI.Ticker
         imageOverlay._ticker = null;
+
+        // Array of masks, f.e. [[1.jpg, 2.jpg], [3.jpg, 4.jpg]]
         imageOverlay._masks = [];
+
+        // Current mask's index
         imageOverlay._frameIndex = 0;
+
+        // PIXI.Sprite
         imageOverlay._backgroundSprite = null;
+
+        // PIXI.Sprite
         imageOverlay._foregroundSprite = null;
+
+        // FPS divider,
+        // f. e. _fpsDivider = 3, 60 (normal FPS) will be divided by 3
         imageOverlay._fpsDivider = 1;
+
+        // Count frames
         imageOverlay._fpsCounter = 0;
+
+        // Callback function
         imageOverlay._onPlayEndCallback = null;
+
+        // Number - index of current working mask
+        // null means - this value will change on next play
         imageOverlay._currentWorkingMaskIndex = null;
-        imageOverlay._frameIndexStep = 0;
+
+        // value between current and next playable frame
+        imageOverlay._frameIndexStep = 1;
 
     };
 
@@ -115,6 +149,10 @@
     // Updates
     //////////////////////////////////////////////////
 
+    /**
+     * Update canvas, should be call by ticker only
+     * @private
+     */
     ImageOverlay.prototype._update = function () {
 
         console.log('_update');
@@ -139,6 +177,10 @@
 
     };
 
+    /**
+     * Update canvas with any side effect
+     * @private
+     */
     ImageOverlay.prototype._silentUpdate = function () {
 
         console.log('_silentUpdate');
@@ -155,6 +197,12 @@
     // Mask
     //////////////////////////////////////////////////
 
+    /**
+     * Add one mask to list of masks
+     * @param {Array} pathToImageList - array of paths to images
+     * @param options - see @constructor
+     * @return {Promise}
+     */
     ImageOverlay.prototype.addMask = function (pathToImageList, options) {
 
         var imageOverlay = this;
@@ -184,6 +232,11 @@
 
     };
 
+    /**
+     * Get mask's frame by alias
+     * @param {String|Number} frameIndex - alias of mask's index
+     * @return {Number}
+     */
     ImageOverlay.prototype.parseBeginEndMaskIndex = function (frameIndex) {
 
         var imageOverlay = this;
@@ -200,6 +253,11 @@
 
     };
 
+    /**
+     * @param {String|Number} frameIndex - start mask's index
+     * @param {Number} frameIndexStep - step of increasing mask's index
+     * @return {Promise} - resolve on end play
+     */
     ImageOverlay.prototype.playMask = function (frameIndex, frameIndexStep) {
 
         var imageOverlay = this;
@@ -236,12 +294,14 @@
 
     };
 
+    /**
+     * @param {Number} index
+     */
     ImageOverlay.prototype.drawMaskIndex = function (index) {
 
         var imageOverlay = this;
 
         imageOverlay.defineCurrentWorkingMaskIndex();
-
 
         imageOverlay._setFrameIndex(index);
 
@@ -253,6 +313,12 @@
 
     };
 
+    /**
+     * @param {String} pathToImage
+     * @param {Object} options - see @constructor options.options
+     * @return {Promise}
+     * @private
+     */
     ImageOverlay.prototype._initializeMaskSprite = function (pathToImage, options) {
 
         var imageOverlay = this;
@@ -295,6 +361,10 @@
 
     };
 
+    /**
+     * Redraw mask to draw opn canvas
+     * @private
+     */
     ImageOverlay.prototype._updateMask = function () {
 
         var imageOverlay = this;
@@ -335,6 +405,9 @@
     // Ticker
     //////////////////////////////////////////////////
 
+    /**
+     * @private
+     */
     ImageOverlay.prototype._initializeTicker = function () {
 
         var ticker = new PIXI.ticker.Ticker();
@@ -348,6 +421,9 @@
 
     };
 
+    /**
+     * @private
+     */
     ImageOverlay.prototype._destroyTicker = function () {
 
         var imageOverlay = this;
@@ -363,6 +439,11 @@
     // Sprite initializing
     //////////////////////////////////////////////////
 
+    /**
+     * Create and define texture from image
+     * @param {String} pathToImage
+     * @return {Promise}
+     */
     ImageOverlay.prototype.initializeImage = function (pathToImage) {
 
         return new Promise(function (resolve, reject) {
@@ -387,6 +468,10 @@
 
     };
 
+    /**
+     * @param {String} pathToImage
+     * @return {Promise}
+     */
     ImageOverlay.prototype.initializeBackgroundImage = function (pathToImage) {
 
         var imageOverlay = this;
@@ -400,6 +485,10 @@
 
     };
 
+    /**
+     * @param {String} pathToImage
+     * @return {Promise}
+     */
     ImageOverlay.prototype.initializeForegroundImage = function (pathToImage) {
 
         var imageOverlay = this;
@@ -426,6 +515,10 @@
     // Render
     //////////////////////////////////////////////////
 
+    /**
+     * @param {Number} width - new renderer width
+     * @param {Number} height - new renderer height
+     */
     ImageOverlay.prototype.setRenderSize = function (width, height) {
 
         var imageOverlay = this;
@@ -435,6 +528,11 @@
 
     };
 
+    /**
+     * Add new sprite to container
+     * @param {PIXI.Sprite} sprite
+     * @param {Number} zIndex
+     */
     ImageOverlay.prototype.addSprite = function (sprite, zIndex) {
 
         var imageOverlay = this;
@@ -452,6 +550,10 @@
 
     };
 
+    /**
+     * Remove all sprites from container
+     * @private
+     */
     ImageOverlay.prototype._cleanContainer = function () {
 
         var imageOverlay = this;
@@ -463,6 +565,11 @@
 
     };
 
+    /**
+     * Resize sprite to render size
+     * @param {PIXI.Sprite} sprite
+     * @private
+     */
     ImageOverlay.prototype._fitToRenderSize = function (sprite) {
 
         var imageOverlay = this;
@@ -477,6 +584,9 @@
     // Events
     //////////////////////////////////////////////////
 
+    /**
+     * @private
+     */
     ImageOverlay.prototype._executePlayEndCallback = function () {
 
         var imageOverlay = this;
@@ -494,6 +604,9 @@
     //////////////////////////////////////////////////
 
     // only GET
+    /**
+     * @return {HTMLElement} - canvas
+     */
     ImageOverlay.prototype.getCanvas = function () {
         return this._renderer.view;
     };
@@ -525,7 +638,9 @@
         return this._container = container;
     };
 
-
+    /**
+     * Define index of working mask
+     */
     ImageOverlay.prototype.defineCurrentWorkingMaskIndex = function () {
 
         var imageOverlay = this;
@@ -540,6 +655,9 @@
 
     };
 
+    /**
+     * If _currentWorkingMaskIndex === null, _currentWorkingMaskIndex will defined on next play
+     */
     ImageOverlay.prototype.undefineCurrentWorkingMaskIndex = function () {
         this._setCurrentWorkingMaskIndex(null);
     };
@@ -554,7 +672,6 @@
 
     ImageOverlay.prototype.getMasks = function () {
         return this._masks;
-        // return masks[getRandomBetween(masks.length)];
     };
 
     ImageOverlay.prototype._pushMask = function (spritesList) {
@@ -645,6 +762,12 @@
     // Helper
     //////////////////////////////////////////////////
 
+    /**
+     * Random from range [start, stop)
+     * @param {Number} start
+     * @param {Number} stop
+     * @return {number}
+     */
     function getRandomBetween(start, stop) {
 
         if (arguments.length === 1) {
@@ -658,6 +781,12 @@
 
     ImageOverlay.utils = {
 
+        /**
+         * Create 1x1 pixel
+         * @param color
+         * @param opacity
+         * @return {String} - base64
+         */
         createPixel: function createPixel(color, opacity) {
 
             var svgSrc = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1px" height="1px" viewBox="0 0 1 1" ><rect {{attr}} x="0" y="0" width="1" height="1"/></svg>';
@@ -680,6 +809,10 @@
 
         },
 
+        /**
+         * @param imagePath
+         * @return {Promise}
+         */
         loadImage: function (imagePath) {
 
             return new Promise(function (resolve, reject) {
@@ -707,6 +840,11 @@
 
         },
 
+        /**
+         * Create new image with inverted RGB only, not Alpha
+         * @param imagePath
+         * @return {String} - base64
+         */
         invertImage: function (imagePath) {
 
             return ImageOverlay.utils.loadImage(imagePath).then(function (image) {
@@ -743,6 +881,5 @@
         }
 
     };
-
 
 }(window));
