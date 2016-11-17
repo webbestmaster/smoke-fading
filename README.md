@@ -509,7 +509,7 @@ Random from range [start, stop)
 
 
 
-#### createPixel(color, opacity) 
+#### ImageOverlay.utils.createPixel(color, opacity) 
 
 Create 1x1 pixel
 
@@ -531,7 +531,7 @@ Create 1x1 pixel
 
 
 
-#### loadImage(imagePath) 
+#### ImageOverlay.utils.loadImage(imagePath) 
 
 
 
@@ -552,7 +552,7 @@ Create 1x1 pixel
 
 
 
-#### invertImage(imagePath) 
+#### ImageOverlay.utils.invertImage(imagePath) 
 
 Create new image with inverted RGB only, not Alpha
 

@@ -145,6 +145,8 @@
 
         imageOverlay._destroyTicker();
 
+        imageOverlay._cleanContainer();
+
         var canvas = imageOverlay.getCanvas();
 
         if (canvas.parentNode) {
@@ -788,107 +790,109 @@
 
     }
 
-    ImageOverlay.utils = {
+    ImageOverlay.utils = {};
 
-        /**
-         * Create 1x1 pixel
-         * @param color
-         * @param opacity
-         * @return {String} - base64
-         */
-        createPixel: function createPixel(color, opacity) {
 
-            var svgSrc = "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" width=\"1px\" height=\"1px\" viewBox=\"0 0 1 1\" ><rect {{attr}} x=\"0\" y=\"0\" width=\"1\" height=\"1\"/></svg>";
+    /**
+     * Create 1x1 pixel
+     * @param color
+     * @param opacity
+     * @return {String} - base64
+     */
+    ImageOverlay.utils.createPixel = function createPixel(color, opacity) {
 
-            var attr;
+        var svgSrc = "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" width=\"1px\" height=\"1px\" viewBox=\"0 0 1 1\" ><rect {{attr}} x=\"0\" y=\"0\" width=\"1\" height=\"1\"/></svg>";
 
-            if (color === undefined || color === null) {
-                color = "#000000";
-            }
+        var attr;
 
-            if (opacity === undefined || opacity === null) {
-                opacity = "1";
-            }
-
-            attr = "fill=\"" + color + "\" fill-opacity=\"" + opacity + "\"";
-
-            svgSrc = svgSrc.replace("{{attr}}", attr);
-
-            return "data:image/svg+xml;base64," + window.btoa(svgSrc);
-
-        },
-
-        /**
-         * @param imagePath
-         * @return {Promise}
-         */
-        loadImage: function (imagePath) {
-
-            return new Promise(function (resolve, reject) {
-
-                var image = new Image();
-
-                function onImageLoad() {
-                    image.removeEventListener("load", onImageLoad, false);
-                    image.removeEventListener("error", onImageError, false);
-                    resolve(image);
-                }
-
-                function onImageError() {
-                    image.removeEventListener("load", onImageLoad, false);
-                    image.removeEventListener("error", onImageError, false);
-                    reject();
-                }
-
-                image.addEventListener("load", onImageLoad, false);
-                image.addEventListener("error", onImageError, false);
-
-                image.src = imagePath;
-
-            });
-
-        },
-
-        /**
-         * Create new image with inverted RGB only, not Alpha
-         * @param imagePath
-         * @return {String} - base64
-         */
-        invertImage: function (imagePath) {
-
-            return ImageOverlay.utils.loadImage(imagePath).then(function (image) {
-
-                var canvas = document.createElement("canvas");
-                canvas.width = image.width;
-                canvas.height = image.height;
-
-                var context = canvas.getContext("2d");
-
-                context.drawImage(image, 0, 0);
-
-                var imageData = context.getImageData(0, 0, image.width, image.height);
-                var data = imageData.data;
-
-                for (var i = 0, len = data.length; i < len; i += 4) {
-                    // red
-                    data[i] = 255 - data[i];
-                    // green
-                    data[i + 1] = 255 - data[i + 1];
-                    // blue
-                    data[i + 2] = 255 - data[i + 2];
-                    // alpha
-                    // data[i + 3] = 255 - data[i + 3];
-                }
-
-                // overwrite original image
-                context.putImageData(imageData, 0, 0);
-
-                return canvas.toDataURL();
-
-            });
-
+        if (color === undefined || color === null) {
+            color = "#000000";
         }
 
+        if (opacity === undefined || opacity === null) {
+            opacity = "1";
+        }
+
+        attr = "fill=\"" + color + "\" fill-opacity=\"" + opacity + "\"";
+
+        svgSrc = svgSrc.replace("{{attr}}", attr);
+
+        return "data:image/svg+xml;base64," + window.btoa(svgSrc);
+
     };
+
+
+    /**
+     * @param imagePath
+     * @return {Promise}
+     */
+    ImageOverlay.utils.loadImage = function (imagePath) {
+
+        return new Promise(function (resolve, reject) {
+
+            var image = new Image();
+
+            function onImageLoad() {
+                image.removeEventListener("load", onImageLoad, false);
+                image.removeEventListener("error", onImageError, false);
+                resolve(image);
+            }
+
+            function onImageError() {
+                image.removeEventListener("load", onImageLoad, false);
+                image.removeEventListener("error", onImageError, false);
+                reject();
+            }
+
+            image.addEventListener("load", onImageLoad, false);
+            image.addEventListener("error", onImageError, false);
+
+            image.src = imagePath;
+
+        });
+
+    };
+
+
+    /**
+     * Create new image with inverted RGB only, not Alpha
+     * @param imagePath
+     * @return {String} - base64
+     */
+    ImageOverlay.utils.invertImage = function (imagePath) {
+
+        return ImageOverlay.utils.loadImage(imagePath).then(function (image) {
+
+            var canvas = document.createElement("canvas");
+            canvas.width = image.width;
+            canvas.height = image.height;
+
+            var context = canvas.getContext("2d");
+
+            context.drawImage(image, 0, 0);
+
+            var imageData = context.getImageData(0, 0, image.width, image.height);
+            var data = imageData.data;
+
+            for (var i = 0, len = data.length; i < len; i += 4) {
+                // red
+                data[i] = 255 - data[i];
+                // green
+                data[i + 1] = 255 - data[i + 1];
+                // blue
+                data[i + 2] = 255 - data[i + 2];
+                // alpha
+                // data[i + 3] = 255 - data[i + 3];
+            }
+
+            // overwrite original image
+            context.putImageData(imageData, 0, 0);
+
+            return canvas.toDataURL();
+
+        });
+
+    };
+
 
 }(window));
