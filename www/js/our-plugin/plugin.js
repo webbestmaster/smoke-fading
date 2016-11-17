@@ -8,7 +8,75 @@
     var BACKGROUND_IMAGE_INDEX = -1;
     var FOREGROUND_IMAGE_INDEX = 1;
 
-    function ImageOverlay() {
+    function ImageOverlay(options) {
+
+        var imageOverlay = this;
+
+        imageOverlay._defineDefaultProperties();
+
+        // create renderer
+        imageOverlay._setContainer(new PIXI.Container());
+        imageOverlay._setRenderer(PIXI.autoDetectRenderer(128, 128, {
+            transparent: true
+        }));
+
+        imageOverlay._initializeTicker();
+
+        if (options) {
+            imageOverlay._parseOptions(options);
+        }
+
+    }
+
+    //////////////////////////////////////////////////
+    // Initialization
+    //////////////////////////////////////////////////
+
+    ImageOverlay.prototype._parseOptions = function (options) {
+
+        var imageOverlay = this;
+
+        var p;
+
+        var foregroundImagePath = options.fg;
+        var backgroundImagePath = options.bg;
+
+        if (backgroundImagePath) {
+            p = Promise.all([
+                imageOverlay.initializeForegroundImage(foregroundImagePath),
+                imageOverlay.initializeBackgroundImage(backgroundImagePath)
+            ]);
+        } else {
+            p = imageOverlay
+                .initializeForegroundImage(foregroundImagePath).then(function () {
+                    return imageOverlay.initializeBackgroundImage(ImageOverlay.utils.createPixel(null, 0));
+                })
+                .then(function () {
+                    // hide sprite from renderer
+                    var backgroundSprite = imageOverlay.getBackgroundSprite();
+                    backgroundSprite.alpha = 0;
+                    backgroundSprite.visible = 0;
+                    backgroundSprite.renderable = 0;
+                });
+        }
+
+        if (options.masks) {
+            p = p.then(function () {
+                return Promise.all(options.masks.map(function (mask) {
+                    return imageOverlay.addMask(mask, options.options)
+                }));
+            });
+        }
+
+        p.then(function () {
+            options.success && options.success.call(imageOverlay);
+        }).catch(function () {
+            options.error && options.error.call(imageOverlay);
+        });
+
+    };
+
+    ImageOverlay.prototype._defineDefaultProperties = function () {
 
         var imageOverlay = this;
 
@@ -26,15 +94,7 @@
         imageOverlay._currentWorkingMaskIndex = null;
         imageOverlay._frameIndexStep = 0;
 
-        // create renderer
-        imageOverlay._setContainer(new PIXI.Container());
-        imageOverlay._setRenderer(PIXI.autoDetectRenderer(128, 128, {
-            transparent: true
-        }));
-
-        imageOverlay._initializeTicker();
-
-    }
+    };
 
     //////////////////////////////////////////////////
     // Updates
@@ -166,8 +226,6 @@
         var imageOverlay = this;
 
         imageOverlay.defineCurrentWorkingMaskIndex();
-
-
 
 
         imageOverlay._setFrameIndex(index);
@@ -335,8 +393,15 @@
             .then(function (sprite) {
                 imageOverlay.setRenderSize(sprite.width, sprite.height);
                 imageOverlay.addSprite(sprite, FOREGROUND_IMAGE_INDEX);
-                imageOverlay._fitToRenderSize(sprite);
+
+                var backgroundSprite = imageOverlay.getBackgroundSprite();
+
+                if (backgroundSprite) {
+                    imageOverlay._fitToRenderSize(backgroundSprite);
+                }
+
                 imageOverlay._setForegroundSprite(sprite);
+
             });
 
     };

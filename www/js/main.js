@@ -2,23 +2,6 @@
 
     "use strict";
 
-    var imageOverlay = new ImageOverlay({
-        bg: 'path-to-background-image',
-        fg: 'path-to-foreground-image', // must be defined if you use other properties
-        masks: [[], []], // array of arrays of mask,
-        options: {
-            flipX: null, // true or false, if flipX is not passed or flipX === null - will be get random value
-            flipY: null, // true or false, if flipY is not passed or flipY === null - will be get random value
-            isInvert: true // true or false, invert colors (RGB only, not Alpha), default value - false
-        },
-        // width: 200, // or 'bg' or 'fg' // default is bg
-        // height: 200, // or 'bg' or 'fg' // default is bg
-        cb: function () {
-            // callback function
-        },
-        ctx: null // context of callback function
-    });
-
     function createImage() {
 
         var imageOverlay = new ImageOverlay();
