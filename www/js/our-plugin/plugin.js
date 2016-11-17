@@ -789,12 +789,9 @@
      */
     function getRandomBetween(start, stop) {
 
-        if (arguments.length === 1) {
-            stop = start;
-            start = 0;
-        }
-
-        return Math.floor(Math.random() * (stop - start) + start);
+        return arguments.length === 1 ?
+            getRandomBetween(0, start) :
+            (Math.floor(Math.random() * (stop - start) + start));
 
     }
 
