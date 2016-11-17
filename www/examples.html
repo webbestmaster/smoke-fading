@@ -19,7 +19,124 @@
 </head>
 <body>
 
+<script>
 
+    // ATTENTION!!!
+    // Define masks array for all examples
+    (function (win) {
+
+        var masksArray = [[], []],
+                i;
+
+        for (i = 0; i < 16; i += 1) {
+            masksArray[0].push('fading-src/fade-1st-' + (i < 10 ? '0' : '') + i + '.png');
+        }
+
+        for (i = 0; i < 15; i += 1) {
+            masksArray[1].push('fading-src/fade-2nd-' + (i < 10 ? '0' : '') + i + '.png');
+        }
+
+        win.masksArray = masksArray;
+
+    }(window));
+
+</script>
+
+<h1>FPS reduced</h1>
+
+<div id="js-from-shadow"><h1>from shadow</h1></div>
+<script>
+
+    (function () {
+
+        var options = {
+            bg: ImageOverlay.utils.createPixel(null),
+            fg: 'image/2photo.jpg',
+            masks: masksArray,
+            options: {
+                flipX: null,
+                flipY: null,
+                isInvert: true
+            },
+            success: function () {
+                var imageOverlay = this;
+                imageOverlay.setFpsDivider(15);
+                document.getElementById('js-from-shadow').appendChild(imageOverlay.getCanvas());
+                imageOverlay.playMask();
+            }
+        };
+
+        new ImageOverlay(options);
+
+    }());
+
+</script>
+
+<div id="js-transparent-background"><h1>transparent background</h1></div>
+<script>
+
+    (function () {
+
+        var imageOverlay = new ImageOverlay();
+
+        var maskOptions = {
+            flipX: null,
+            flipY: null,
+            isInvert: true
+        };
+
+        imageOverlay
+                .initializeForegroundImage('image/2photo.jpg')
+                .then(function () {
+                    return Promise.all([
+                        imageOverlay.addMask(masksArray[0]),
+                        imageOverlay.addMask(masksArray[1], maskOptions)
+                    ]);
+                })
+                .then(function () {
+
+                    document.getElementById('js-transparent-background').appendChild(imageOverlay.getCanvas());
+                    imageOverlay.setFpsDivider(15);
+
+                    imageOverlay.playMask('end', -1).then(function () {
+//                    imageOverlay.destroy();
+                    });
+
+                });
+
+    }());
+
+</script>
+
+<div id="js-double-images"><h1>double images</h1></div>
+<script>
+
+    (function () {
+
+        new Promise(function (resolve, reject) {
+            var options = {
+                bg: 'image/1photo.jpg',
+                fg: 'image/2photo.jpg',
+                masks: masksArray,
+                success: function () {
+                    resolve(this);
+                },
+                error: reject
+            };
+
+            new ImageOverlay(options);
+
+        }).then(function (imageOverlay) {
+
+            imageOverlay.setFpsDivider(15);
+            document.getElementById('js-double-images').appendChild(imageOverlay.getCanvas());
+            imageOverlay.playMask();
+
+        });
+
+    }());
+
+</script>
 
 </body>
 </html>

@@ -67,16 +67,17 @@
             ]);
         } else {
             p = imageOverlay
-                .initializeForegroundImage(foregroundImagePath).then(function () {
-                    return imageOverlay.initializeBackgroundImage(ImageOverlay.utils.createPixel(null, 0));
-                })
-                .then(function () {
-                    // hide sprite from renderer
-                    var backgroundSprite = imageOverlay.getBackgroundSprite();
-                    backgroundSprite.alpha = 0;
-                    backgroundSprite.visible = 0;
-                    backgroundSprite.renderable = 0;
-                });
+                .initializeForegroundImage(foregroundImagePath);
+                // .then(function () {
+                //     return imageOverlay.initializeBackgroundImage(ImageOverlay.utils.createPixel(null, 0));
+                // })
+                // .then(function () {
+                //     // hide sprite from renderer
+                //     var backgroundSprite = imageOverlay.getBackgroundSprite();
+                //     backgroundSprite.alpha = 0;
+                //     backgroundSprite.visible = 0;
+                //     backgroundSprite.renderable = 0;
+                // });
         }
 
         if (options.masks) {
@@ -280,6 +281,16 @@
     ImageOverlay.prototype.playMask = function (frameIndex, frameIndexStep) {
 
         var imageOverlay = this;
+
+        var backgroundSprite = imageOverlay.getBackgroundSprite();
+
+        if (!backgroundSprite) {
+            return imageOverlay
+                .initializeBackgroundImage(ImageOverlay.utils.createPixel(null, 0))
+                .then(function () {
+                    return imageOverlay.playMask(frameIndex, frameIndexStep);
+                });
+        }
 
         var ticker = imageOverlay.getTicker();
 
