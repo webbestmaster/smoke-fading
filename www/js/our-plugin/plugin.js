@@ -791,7 +791,7 @@
 
         return arguments.length === 1 ?
             getRandomBetween(0, start) :
-            (Math.floor(Math.random() * (stop - start) + start));
+            Math.floor(Math.random() * (stop - start) + start);
 
     }
 
