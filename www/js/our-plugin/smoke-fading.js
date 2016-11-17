@@ -1,3 +1,5 @@
+/*jslint this: true */
+/*global window, document */
 (function (win) {
 
     "use strict";
@@ -11,17 +13,17 @@
     /**
      * @constructor
      * @param {Object} [options] - options for constructor
-         * @param {String} [options.bg] - path to background image, you can use .initializeBackgroundImage()
-         * @param {String}  options.fg  - path to foreground image, you can use .initializeForegroundImage()
-         * @param {Array[]} [options.masks] - array of masks, you can use .addMask()
-             * @param {Array[]} [options.masks[i]] - one mask
-                 * @param {String} [options.masks[i][j]] - path to one mask image
-         * @param {Object} [options.options] - options of masks, you can use .addMask() with options
-             * @param {Boolean|null} [options.options.flipX=true|false-will be get random] - need to flip by X axis
-             * @param {Boolean|null} [options.options.flipY=true|false-will be get random] - need to flip by Y axis
-             * @param {Boolean|null} [options.options.isInvert=false] - need to invert white/black of mask
-         * @param {Function} [options.success] - callback on success
-         * @param {Function} [options.error] - callback on error
+     * @param {String} [options.bg] - path to background image, you can use .initializeBackgroundImage()
+     * @param {String}  options.fg  - path to foreground image, you can use .initializeForegroundImage()
+     * @param {Array[]} [options.masks] - array of masks, you can use .addMask()
+     * @param {Array[]} [options.masks[i]] - one mask
+     * @param {String} [options.masks[i][j]] - path to one mask image
+     * @param {Object} [options.options] - options of masks, you can use .addMask() with options
+     * @param {Boolean|null} [options.options.flipX=true|false-will be get random] - need to flip by X axis
+     * @param {Boolean|null} [options.options.flipY=true|false-will be get random] - need to flip by Y axis
+     * @param {Boolean|null} [options.options.isInvert=false] - need to invert white/black of mask
+     * @param {Function} [options.success] - callback on success
+     * @param {Function} [options.error] - callback on error
      */
     function ImageOverlay(options) {
 
@@ -213,23 +215,25 @@
 
         options = options || {};
 
-        options.flipX = (options.hasOwnProperty('flipX') && options.flipX !== null) ? options.flipX : !getRandomBetween(2);
-        options.flipY = (options.hasOwnProperty('flipY') && options.flipY !== null) ? options.flipY : !getRandomBetween(2);
-        options.isInvert = options.hasOwnProperty('isInvert') ? options.isInvert : false;
+        options.flipX = (options.hasOwnProperty("flipX") && options.flipX !== null) ? options.flipX : !getRandomBetween(2);
+        options.flipY = (options.hasOwnProperty("flipY") && options.flipY !== null) ? options.flipY : !getRandomBetween(2);
+        options.isInvert = options.hasOwnProperty("isInvert") ? options.isInvert : false;
 
-        var p = Promise.resolve(pathToImageList);
+        var p;
 
         if (options.isInvert) {
-            p = p.then(function (pathToImageList) {
-                return Promise.all(pathToImageList.map(ImageOverlay.utils.invertImage));
-            });
+            p = Promise.all(pathToImageList.map(ImageOverlay.utils.invertImage));
+        } else {
+            p = Promise.resolve(pathToImageList);
         }
 
-        return p.then(function (pathToImageList) {
+        p = p.then(function (pathToImageList) {
             return Promise.all(pathToImageList.map(function (pathToImage) {
                 return imageOverlay._initializeMaskSprite(pathToImage, options);
             }));
-        }).then(function (masks) {
+        });
+
+        return p.then(function (masks) {
             imageOverlay._pushMask(masks);
             imageOverlay._silentUpdate();
         });
@@ -245,11 +249,11 @@
 
         var imageOverlay = this;
 
-        if (frameIndex === 'begin') {
+        if (frameIndex === "begin") {
             return 0;
         }
 
-        if (frameIndex === 'end') {
+        if (frameIndex === "end") {
             return imageOverlay.getMasks()[imageOverlay.getCurrentWorkingMaskIndex()].length - 1;
         }
 
@@ -467,10 +471,10 @@
 
             sprite
                 .texture.baseTexture
-                .once('loaded', function () {
+                .once("loaded", function () {
                     resolve(sprite);
                 })
-                .once('error', reject);
+                .once("error", reject);
 
         });
 
@@ -794,23 +798,23 @@
          */
         createPixel: function createPixel(color, opacity) {
 
-            var svgSrc = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1px" height="1px" viewBox="0 0 1 1" ><rect {{attr}} x="0" y="0" width="1" height="1"/></svg>';
+            var svgSrc = "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" width=\"1px\" height=\"1px\" viewBox=\"0 0 1 1\" ><rect {{attr}} x=\"0\" y=\"0\" width=\"1\" height=\"1\"/></svg>";
 
             var attr;
 
             if (color === undefined || color === null) {
-                color = '#000000';
+                color = "#000000";
             }
 
             if (opacity === undefined || opacity === null) {
-                opacity = '1';
+                opacity = "1";
             }
 
-            attr = 'fill="' + color + '" fill-opacity="' + opacity + '"';
+            attr = "fill=\"" + color + "\" fill-opacity=\"" + opacity + "\"";
 
-            svgSrc = svgSrc.replace('{{attr}}', attr);
+            svgSrc = svgSrc.replace("{{attr}}", attr);
 
-            return 'data:image/svg+xml;base64,' + window.btoa(svgSrc);
+            return "data:image/svg+xml;base64," + window.btoa(svgSrc);
 
         },
 
@@ -825,19 +829,19 @@
                 var image = new Image();
 
                 function onImageLoad() {
-                    image.removeEventListener('load', onImageLoad, false);
-                    image.removeEventListener('error', onImageError, false);
+                    image.removeEventListener("load", onImageLoad, false);
+                    image.removeEventListener("error", onImageError, false);
                     resolve(image);
                 }
 
                 function onImageError() {
-                    image.removeEventListener('load', onImageLoad, false);
-                    image.removeEventListener('error', onImageError, false);
+                    image.removeEventListener("load", onImageLoad, false);
+                    image.removeEventListener("error", onImageError, false);
                     reject();
                 }
 
-                image.addEventListener('load', onImageLoad, false);
-                image.addEventListener('error', onImageError, false);
+                image.addEventListener("load", onImageLoad, false);
+                image.addEventListener("error", onImageError, false);
 
                 image.src = imagePath;
 
@@ -854,11 +858,11 @@
 
             return ImageOverlay.utils.loadImage(imagePath).then(function (image) {
 
-                var canvas = document.createElement('canvas');
+                var canvas = document.createElement("canvas");
                 canvas.width = image.width;
                 canvas.height = image.height;
 
-                var context = canvas.getContext('2d');
+                var context = canvas.getContext("2d");
 
                 context.drawImage(image, 0, 0);
 
