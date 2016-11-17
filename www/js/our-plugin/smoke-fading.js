@@ -13,17 +13,17 @@
     /**
      * @constructor
      * @param {Object} [options] - options for constructor
-     * @param {String} [options.bg] - path to background image, you can use .initializeBackgroundImage()
-     * @param {String}  options.fg  - path to foreground image, you can use .initializeForegroundImage()
-     * @param {Array[]} [options.masks] - array of masks, you can use .addMask()
-     * @param {Array[]} [options.masks[i]] - one mask
-     * @param {String} [options.masks[i][j]] - path to one mask image
-     * @param {Object} [options.options] - options of masks, you can use .addMask() with options
-     * @param {Boolean|null} [options.options.flipX=true|false-will be get random] - need to flip by X axis
-     * @param {Boolean|null} [options.options.flipY=true|false-will be get random] - need to flip by Y axis
-     * @param {Boolean|null} [options.options.isInvert=false] - need to invert white/black of mask
-     * @param {Function} [options.success] - callback on success
-     * @param {Function} [options.error] - callback on error
+         * @param {String} [options.bg] - path to background image, you can use .initializeBackgroundImage()
+         * @param {String}  options.fg  - path to foreground image, you can use .initializeForegroundImage()
+         * @param {Array[]} [options.masks] - array of masks, you can use .addMask()
+             * @param {Array[]} [options.masks[i]] - one mask
+                 * @param {String} [options.masks[i][j]] - path to one mask image
+         * @param {Object} [options.options] - options of masks, you can use .addMask() with options
+             * @param {Boolean|null} [options.options.flipX=true|false-will be get random] - need to flip by X axis
+             * @param {Boolean|null} [options.options.flipY=true|false-will be get random] - need to flip by Y axis
+             * @param {Boolean|null} [options.options.isInvert=false] - need to invert white/black of mask
+         * @param {Function} [options.success] - callback on success
+         * @param {Function} [options.error] - callback on error
      */
     function ImageOverlay(options) {
 
