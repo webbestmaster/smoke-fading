@@ -34,6 +34,7 @@
 
                 imageOverlay.playMask('end', -1).then(function () {
                     console.log('play is end!!!');
+                    imageOverlay.destroy();
                 });
 
             },

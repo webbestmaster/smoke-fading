@@ -145,6 +145,25 @@
 
     };
 
+    /**
+     * Destroy object
+     */
+    ImageOverlay.prototype.destroy = function () {
+
+        var imageOverlay = this;
+
+        imageOverlay._destroyTicker();
+
+        var canvas = imageOverlay.getCanvas();
+
+        if (canvas.parentNode) {
+            canvas.parentNode.removeChild(canvas);
+        }
+
+        imageOverlay._defineDefaultProperties();
+
+    };
+
     //////////////////////////////////////////////////
     // Updates
     //////////////////////////////////////////////////
